@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_get_next_line.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crosorio < crosorio@student.42madrid.com>  #+#  +:+       +#+        */
+/*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-25 15:15:26 by crosorio          #+#    #+#             */
-/*   Updated: 2025-08-25 15:15:26 by crosorio         ###   ########.fr       */
+/*   Created: 2025/08/25 15:15:26 by crosorio          #+#    #+#             */
+/*   Updated: 2025/08/26 14:33:50 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ int	ft_read(int fd, char **stash, char **buffer)
 	int		bytes_read;
 	char	*tmp;
 
+	if(!*stash)
+		*stash = ft_strdup("");
 	while (!ft_strchr(*stash, '\n'))
 	{
 		bytes_read = read(fd, *buffer, BUFFER_SIZE);

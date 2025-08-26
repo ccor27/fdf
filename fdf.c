@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crosorio < crosorio@student.42madrid.com>  #+#  +:+       +#+        */
+/*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-25 13:02:09 by crosorio          #+#    #+#             */
-/*   Updated: 2025-08-25 13:02:09 by crosorio         ###   ########.fr       */
+/*   Created: 2025/08/25 13:02:09 by crosorio          #+#    #+#             */
+/*   Updated: 2025/08/26 14:34:46 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,7 @@ int	main(int argc, char **argv)
 	if (ft_strncmp(ft_strrchr(argv[1], '.'), ".fdf", 4) != 0)
 		ft_error("No valid extension, you must use .fdf extension", 1);
 	ft_initialize(&file_map);
-	ft_printf("before validate and store\n");
 	ft_validate_and_store(argv[1], &file_map);
-	ft_printf("the validation and store was successfully");
 	ft_print_map_matrix(&file_map);
 	ft_error_parse(&file_map,NULL,0);//here we need a function to free memory
 }

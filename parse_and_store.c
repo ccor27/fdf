@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_and_store.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crosorio < crosorio@student.42madrid.com>  #+#  +:+       +#+        */
+/*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-25 16:45:02 by crosorio          #+#    #+#             */
-/*   Updated: 2025-08-25 16:45:02 by crosorio         ###   ########.fr       */
+/*   Created: 2025/08/25 16:45:02 by crosorio          #+#    #+#             */
+/*   Updated: 2025/08/26 18:45:28 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void	ft_store_data(t_file_map *file_map,int width, int row, char **tokens
 	col = 0;
 	while (col < width)
 	{
-		file_map->matrix[row][col].x = col;
-		file_map->matrix[row][col].y = row;
+		file_map->matrix[row][col].x = col;//eje horizontal
+		file_map->matrix[row][col].y = row;//eje vertical
 		file_map->matrix[row][col].z = ft_atoi(tokens[col]);
 		if (!parse_token(&file_map->matrix[row][col], tokens[col], col, row))
 			ft_error_parse(file_map, "Parse error: Invalid color format\n", 1);
@@ -34,6 +34,7 @@ static void	ft_process_line_aux(int row, char **tokens, t_file_map *map,
 {
 	int	width;
 
+	width = 0;
 	while (tokens[width])
 		width++;
 	if (mode == 0)
@@ -50,7 +51,6 @@ static void	ft_process_line_aux(int row, char **tokens, t_file_map *map,
 
 static void	process_line(char *line, t_file_map *file_map, int row, int mode)
 {
-	ft_printf("before ft_split of tokens\n");
 	file_map-> tokens = ft_split(line, ' ');
 	if (!file_map->tokens)
 		ft_error_parse(file_map, "Memory error in split\n", 1);
@@ -63,16 +63,13 @@ static void	ft_read_file(t_file_map *file_map, int mode)
 	int		row;
 
 	row = 0;
-	ft_printf("before while gnl\n");
 	while (1)
 	{
-		ft_printf("before line into gnl while\n");
 		line = get_next_line(file_map->infile);
 		if (line != NULL)
 		{
 			if (line[0] != '\0' && line[0] != '\n')
 			{
-				ft_printf("before process line into gnl while\n");
 				process_line(line, file_map, row, mode);
 				if (mode == 1)
 					row++;
@@ -87,7 +84,6 @@ static void	ft_read_file(t_file_map *file_map, int mode)
 		else
 			break ;
 	}
-	ft_printf("after while gnl\n");
 }
 
 void	ft_validate_and_store(char *file, t_file_map *file_map)
