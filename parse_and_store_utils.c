@@ -29,14 +29,38 @@ void	ft_malloc_matrix_memory(t_file_map *file_map)
 	}
 }
 
-static int	 is_valid_hex(const char *str)
+int	is_valid_hex(const char *str)
+{
+	int	i;
+
+	if (ft_strlen(str) < 3)
+		return (0);
+	if (str[0] != '0' || (str[1] != 'x' && str[1] != 'X'))
+		return (0);
+	i = 2;
+	while (str[i])
+	{
+		if (ft_base_value(str[i], "0123456789ABCDEFabcdef") == -1)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	 ft_is_valid_integer(const char *str)
 {
 	int	i;
 
 	i = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	if (!str[i])
+		return (0);
 	while (str[i])
 	{
-		if (ft_base_value(str[i], "0123456789ABCDEFabcdef") == -1)
+		if (!ft_isdigit(str[i]))
 			return (0);
 		i++;
 	}
@@ -53,18 +77,17 @@ int	parse_token(t_node *node, char *token, int x, int y)
 	if (comma)
 	{
 		*comma = '\0';
-		node->z = ft_atoi(token);
-		if (*(comma + 1) == '0' && (*(comma + 2) == 'x' || *(comma + 2) == 'X'))
-		{
-			if (!is_valid_hex(comma + 3))
-				return (0);
-			node->color = ft_atoi_base(comma + 3, "0123456789ABCDEFabcdef");
-		}
-		else
+		if (!ft_is_valid_integer(token))
 			return (0);
+		node->z = ft_atoi(token);
+		if (!is_valid_hex(comma + 1))
+			return (0);
+		node->color = ft_atoi_base(comma + 2, "0123456789ABCDEFabcdef");
 	}
 	else
 	{
+		if (!ft_is_valid_integer(token))
+			return (0);
 		node->z = ft_atoi(token);
 		node->color = 0xFFFFFF;
 	}

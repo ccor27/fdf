@@ -17,6 +17,7 @@
 #include "minilibx/mlx.h"
 #include <stdlib.h>
 #include <fcntl.h> //open
+#include <math.h> // cos and sin
 
 typedef struct s_node
 {
@@ -24,6 +25,8 @@ typedef struct s_node
 	int	x;
 	int	y;
 	int	z;
+	double	xiso;
+	double	yiso;
 } t_node;
 
 typedef struct  s_map
@@ -45,8 +48,12 @@ int	main(int argc, char **argv);
 //parse_and_store_utils.c
 void	ft_malloc_matrix_memory(t_file_map *file_map);
 int	parse_token(t_node *node, char *token, int x, int y);
+int	is_valid_hex(const char *str);
+int	ft_is_valid_integer(const char *str);
 //parse_and_store.c
 void	ft_validate_and_store(char *file, t_file_map *file_map);
+//convert.c
+void	ft_calculate_isos(t_file_map *data);
 
 
 #endif

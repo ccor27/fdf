@@ -1,7 +1,7 @@
 NAME= fdf
 LIBFT= libft/libft.a
 
-SRC = error_handler.c fdf.c parse_and_store_utils.c parse_and_store.c
+SRC = error_handler.c fdf.c parse_and_store_utils.c parse_and_store.c convert.c
 OBJ_DIR= obj
 OBJ= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 

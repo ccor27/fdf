@@ -10,23 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "fdf.h"
 
-static void	ft_store_data(t_file_map *file_map,int width, int row, char **tokens)
+static void	ft_store_data(t_file_map *file_map, int width, int row,
+		char **tokens)
 {
 	int	col;
-
+	//ft_printf("antes del ciclo de ft_store_data\n");
 	col = 0;
 	while (col < width)
 	{
-		file_map->matrix[row][col].x = col;//eje horizontal
-		file_map->matrix[row][col].y = row;//eje vertical
-		file_map->matrix[row][col].z = ft_atoi(tokens[col]);
+		file_map->matrix[row][col].x = col; // eje horizontal
+		file_map->matrix[row][col].y = row; // eje vertical
+		//ft_printf("token to parse from ft_store_data: [%s]\n", tokens[col]);
 		if (!parse_token(&file_map->matrix[row][col], tokens[col], col, row))
-			ft_error_parse(file_map, "Parse error: Invalid color format\n", 1);
+			ft_error_parse(file_map,
+				"Parse error: Invalid either color or number\n", 1);
 		col++;
 	}
+	//ft_printf("despues del ciclo de ft_store_data\n");
 }
 
 static void	ft_process_line_aux(int row, char **tokens, t_file_map *map,
@@ -46,15 +48,34 @@ static void	ft_process_line_aux(int row, char **tokens, t_file_map *map,
 		map->height++;
 	}
 	else if (mode == 1)
-		ft_store_data(map,width,row,tokens);
+		ft_store_data(map, width, row, tokens);
 }
 
 static void	process_line(char *line, t_file_map *file_map, int row, int mode)
 {
-	file_map-> tokens = ft_split(line, ' ');
+	char	*trimmed_line;
+
+	trimmed_line = ft_strtrim(line, " \t\n");
+	if (!trimmed_line)
+	{
+		free(line);
+		ft_error_parse(file_map, "Memory error in trim\n", 1);
+	}
+	if (ft_strlen(trimmed_line) == 0)
+	{
+		free(line);
+		free(trimmed_line);
+		return ;
+	}
+	file_map->tokens = ft_split(trimmed_line, ' ');
 	if (!file_map->tokens)
+	{
+		free(line);
+		free(trimmed_line);
 		ft_error_parse(file_map, "Memory error in split\n", 1);
+	}
 	ft_process_line_aux(row, file_map->tokens, file_map, mode);
+	free(trimmed_line);
 }
 
 static void	ft_read_file(t_file_map *file_map, int mode)
@@ -65,6 +86,7 @@ static void	ft_read_file(t_file_map *file_map, int mode)
 	row = 0;
 	while (1)
 	{
+		//ft_printf("entro al ft_read_file antes dentro del ciclo del gnl\n");
 		line = get_next_line(file_map->infile);
 		if (line != NULL)
 		{
