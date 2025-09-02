@@ -1,0 +1,102 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: crosorio < crosorio@student.42madrid.com>  #+#  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025-08-25 12:57:09 by crosorio          #+#    #+#             */
+/*   Updated: 2025-08-25 12:57:09 by crosorio         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef FDF_H
+# define FDF_H
+
+# include "libft/libft.h"
+#include <X11/Xlib.h>
+# include "minilibx/mlx.h"
+# include <fcntl.h> //open
+# include <math.h>  // cos and sin
+# include <stdlib.h>
+
+typedef struct s_node
+{
+	int		color;
+	int		x;
+	int		y;
+	int		z;
+	int		xiso;
+	int		yiso;
+}			t_node;
+
+typedef struct s_cam
+{
+	double zoom;    // base tile size en px
+	double z_scale; // cuanto pesa z en px
+	double angle;   // normalmente 30° -> M_PI/6 0.523599 en radiantes
+	double x_off;   // offset en pantalla (px)
+	double y_off;   // offset en pantalla (px)
+}			t_cam;
+
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_len;
+	int		endian;
+	int		w;
+	int		h;
+}			t_img;
+
+typedef struct s_fdf
+{
+	int		width;
+	int		height;
+	int		infile;
+	t_node	**matrix;
+	t_cam	*data_cam;
+	t_img	*data_img;
+	char	**tokens;
+	// Pointers for MiniLibX
+	void	*mlx_ptr;
+	void	*win_ptr;
+}			t_fdf;
+
+typedef struct s_bresenham
+{
+	int		dx;
+	int		dy;
+	int		sx;
+	int		sy;
+	int		err;
+	int		e2;
+}			t_bresenham;
+
+// error_handler.c
+void		ft_error(char *msg, int exit_code);
+void		ft_free_and_exit(t_fdf *file_map, char *msg, int exit_code);
+void		ft_free_split_tokens(char **tokens);
+void	ft_free_split_matrix(t_node **nodes, int height);
+int	ft_close(t_fdf *fdf);
+// fdf.c
+int			main(int argc, char **argv);
+// parse_and_store_utils.c
+void		ft_malloc_matrix_memory(t_fdf *file_map);
+int			parse_token(t_node *node, char *token, int x, int y);
+int			is_valid_hex(const char *str);
+int			ft_is_valid_integer(const char *str);
+// parse_and_store.c
+void		ft_validate_and_store(char *file, t_fdf *file_map);
+// calculations.c
+void		ft_calculate_isos(t_node *node, t_cam *cam);
+void		ft_calculate_all_isos(t_fdf *file_map);
+void	ft_init_bresenham(t_bresenham *b, t_node *a, t_node *b_node);
+void	ft_draw_bresenham(t_img *img, t_node *a, t_node *b);
+void	img_put_pixel(t_img *img, int x, int y, int color);
+//draw.c
+void		ft_draw_map(t_fdf *file_map);
+void	ft_draw_map_aux(t_fdf *f_map);
+
+#endif

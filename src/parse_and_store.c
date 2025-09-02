@@ -12,26 +12,24 @@
 
 #include "fdf.h"
 
-static void	ft_store_data(t_file_map *file_map, int width, int row,
+static void	ft_store_data(t_fdf *file_map, int width, int row,
 		char **tokens)
 {
 	int	col;
-	//ft_printf("antes del ciclo de ft_store_data\n");
+
 	col = 0;
 	while (col < width)
 	{
 		file_map->matrix[row][col].x = col; // eje horizontal
 		file_map->matrix[row][col].y = row; // eje vertical
-		//ft_printf("token to parse from ft_store_data: [%s]\n", tokens[col]);
 		if (!parse_token(&file_map->matrix[row][col], tokens[col], col, row))
-			ft_error_parse(file_map,
+			ft_free_and_exit(file_map,
 				"Parse error: Invalid either color or number\n", 1);
 		col++;
 	}
-	//ft_printf("despues del ciclo de ft_store_data\n");
 }
 
-static void	ft_process_line_aux(int row, char **tokens, t_file_map *map,
+static void	ft_process_line_aux(int row, char **tokens, t_fdf *map,
 		int mode)
 {
 	int	width;
@@ -44,14 +42,14 @@ static void	ft_process_line_aux(int row, char **tokens, t_file_map *map,
 		if (map->width == -1)
 			map->width = width;
 		else if (width != map->width)
-			ft_error_parse(map, "Irregular map\n", 1);
+			ft_free_and_exit(map, "Irregular map\n", 1);
 		map->height++;
 	}
 	else if (mode == 1)
 		ft_store_data(map, width, row, tokens);
 }
 
-static void	process_line(char *line, t_file_map *file_map, int row, int mode)
+static void	process_line(char *line, t_fdf *fdf, int row, int mode)
 {
 	char	*trimmed_line;
 
@@ -59,26 +57,27 @@ static void	process_line(char *line, t_file_map *file_map, int row, int mode)
 	if (!trimmed_line)
 	{
 		free(line);
-		ft_error_parse(file_map, "Memory error in trim\n", 1);
+		ft_free_and_exit(fdf, "Memory error in trim\n", 1);
 	}
 	if (ft_strlen(trimmed_line) == 0)
 	{
 		free(line);
 		free(trimmed_line);
-		return ;
+		ft_free_and_exit(fdf, "Error map not valid\n", 1);
 	}
-	file_map->tokens = ft_split(trimmed_line, ' ');
-	if (!file_map->tokens)
+	fdf->tokens = ft_split(trimmed_line, ' ');
+	if (!fdf->tokens)
 	{
 		free(line);
 		free(trimmed_line);
-		ft_error_parse(file_map, "Memory error in split\n", 1);
+		ft_free_and_exit(fdf, "Memory error in split\n", 1);
 	}
-	ft_process_line_aux(row, file_map->tokens, file_map, mode);
+	ft_process_line_aux(row, fdf->tokens, fdf, mode);
+	ft_free_split_tokens(fdf->tokens);
 	free(trimmed_line);
 }
 
-static void	ft_read_file(t_file_map *file_map, int mode)
+static void	ft_read_file(t_fdf *file_map, int mode)
 {
 	char	*line;
 	int		row;
@@ -86,7 +85,6 @@ static void	ft_read_file(t_file_map *file_map, int mode)
 	row = 0;
 	while (1)
 	{
-		//ft_printf("entro al ft_read_file antes dentro del ciclo del gnl\n");
 		line = get_next_line(file_map->infile);
 		if (line != NULL)
 		{
@@ -100,7 +98,7 @@ static void	ft_read_file(t_file_map *file_map, int mode)
 			else
 			{
 				free(line);
-				ft_error_parse(file_map, "Parse: Map not valid\n", 1);
+				ft_free_and_exit(file_map, "Parse: Map not valid\n", 1);
 			}
 		}
 		else
@@ -108,17 +106,15 @@ static void	ft_read_file(t_file_map *file_map, int mode)
 	}
 }
 
-void	ft_validate_and_store(char *file, t_file_map *file_map)
+void	ft_validate_and_store(char *file, t_fdf *file_map)
 {
 	file_map->infile = open(file, O_RDONLY);
 	if (file_map->infile < 0)
-		ft_error_parse(file_map, "Error opening the file", 1);
+		ft_free_and_exit(file_map, "Error opening the file", 1);
 	ft_read_file(file_map, 0);
-	//	close(file_map->infile);
 	ft_malloc_matrix_memory(file_map);
 	file_map->infile = open(file, O_RDONLY);
 	if (file_map->infile < 0)
-		ft_error_parse(file_map, "Error opening the file", 1);
+		ft_free_and_exit(file_map, "Error opening the file", 1);
 	ft_read_file(file_map, 1);
-	//	close(file_map->infile);
 }

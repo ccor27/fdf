@@ -12,42 +12,56 @@
 
 #include "fdf.h"
 
+int	ft_close(t_fdf *fdf)
+{
+	ft_free_and_exit(fdf, NULL, 0);
+	return (0);
+}
 void	ft_error(char *msg, int exit_code)
 {
-	if(msg)
+	if (msg)
 		ft_printf(msg);
-	exit(exit_code);
+	if (exit_code != 0)
+		exit(exit_code);
 }
 
-void	ft_error_parse(t_file_map *file_map, char *msg, int exit_code)
+void	ft_free_and_exit(t_fdf *fdf, char *msg, int exit_code)
 {
-	//free struct memory
-	if(file_map->matrix)
-		ft_free_split_matrix(file_map->matrix);
-	if(file_map->tokens)
-		ft_free_split_tokens(file_map->tokens);
-	ft_error(msg,exit_code);
+	// free struct memory
+	if (fdf->matrix)
+		ft_free_split_matrix(fdf->matrix, fdf->height);
+	ft_error(msg, exit_code);
+	if (fdf->infile > 0)
+		close(fdf->infile);
+	if (fdf->data_img->img)
+		mlx_destroy_image(fdf->mlx_ptr, fdf->data_img->img);
+	if (fdf->win_ptr)
+		mlx_destroy_window(fdf->mlx_ptr, fdf->win_ptr);
+	if (fdf->data_cam)
+		free(fdf->data_cam);
+	ft_error(msg, exit_code);
 }
 
 void	ft_free_split_tokens(char **tokens)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(tokens[i])
+	while (tokens[i])
 	{
 		free(tokens[i]);
 		i++;
 	}
 	free(tokens);
+	tokens = NULL;
 }
 
-void	ft_free_split_matrix(t_node **nodes)
+void	ft_free_split_matrix(t_node **nodes, int height)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(nodes[i])
+	while (i < height)
 	{
 		free(nodes[i]);
 		i++;

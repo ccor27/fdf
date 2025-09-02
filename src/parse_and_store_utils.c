@@ -12,19 +12,19 @@
 
 #include "fdf.h"
 
-void	ft_malloc_matrix_memory(t_file_map *file_map)
+void	ft_malloc_matrix_memory(t_fdf *file_map)
 {
 	int	i;
 
 	file_map->matrix = malloc(sizeof(t_node *) * file_map->height);
 	if (!file_map->matrix)
-		ft_error_parse(file_map, "Parse error: malloc failed\n", 1);
+		ft_free_and_exit(file_map, "Parse error: malloc failed\n", 1);
 	i = 0;
 	while (i < file_map->height)
 	{
 		file_map->matrix[i] = malloc(sizeof(t_node) * file_map->width);
 		if (!file_map->matrix[i])
-			ft_error_parse(file_map, "Parse error: malloc failed\n", 1);
+			ft_free_and_exit(file_map, "Parse error: malloc failed\n", 1);
 		i++;
 	}
 }
@@ -47,7 +47,7 @@ int	is_valid_hex(const char *str)
 	return (1);
 }
 
-int	 ft_is_valid_integer(const char *str)
+int	ft_is_valid_integer(const char *str)
 {
 	int	i;
 

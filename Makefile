@@ -1,9 +1,11 @@
 NAME= fdf
 LIBFT= libft/libft.a
 
-SRC = error_handler.c fdf.c parse_and_store_utils.c parse_and_store.c convert.c
+SRC_FILES = error_handler.c fdf.c parse_and_store_utils.c \
+		parse_and_store.c calculations.c draw.c
 OBJ_DIR= obj
-OBJ= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
+SRC= $(addprefix src/,$(SRC_FILES))
+OBJ= $(addprefix $(OBJ_DIR)/,$(SRC_FILES:.c=.o))
 
 CFLAGS = -Wall -Wextra -Werror
 CC = gcc
@@ -29,18 +31,19 @@ endef
 #paths
 LIBFT_DIR= libft
 INCLUDES= -I. -I$(LIBFT_DIR)
+LFLAGS= -L./minilibx -lmlx -lX11 -lXext -lm
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 		@$(MAKE) -C $(LIBFT_DIR) --silent
 		$(call LOADING_BAR_COMP)
-		@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+		@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(LFLAGS) -o $(NAME)
 
 $(LIBFT):
 	@(MAKE) -C libft
 
-$(OBJ_DIR)/%.o : %.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o : src/%.c | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) $(INCLUDES)  -c $< -o $@
 
 $(OBJ_DIR):
