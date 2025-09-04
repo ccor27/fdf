@@ -29,6 +29,7 @@ void	ft_calculate_all_isos(t_fdf *fdf)
 		i++;
 	}
 }
+
 void	ft_calculate_isos(t_node *node, t_cam *cam)
 {
 	double	tmp_x;
@@ -90,19 +91,12 @@ void	ft_draw_bresenham(t_img *img, t_node *a, t_node *b)
 		if (e2_val > -b_data.dy)
 		{
 			b_data.err -= b_data.dy;
-			x_current += b_data.sx; // Modificar las variables locales
+			x_current += b_data.sx;
 		}
 		if (e2_val < b_data.dx)
 		{
 			b_data.err += b_data.dx;
-			y_current += b_data.sy; // Modificar las variables locales
+			y_current += b_data.sy;
 		}
 	}
 }
-// void	ft_draw_line(int x0,int x1, int y0, int y1)
-// {
-// 	if(abs(x1-x0) > abs(y1-y0))
-// 		draw_line_h(x0,x1,y0,y1);
-// 	else
-// 		draw_line_v(x0,x1,y0,y1);
-// }

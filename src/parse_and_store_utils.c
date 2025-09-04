@@ -18,13 +18,13 @@ void	ft_malloc_matrix_memory(t_fdf *file_map)
 
 	file_map->matrix = malloc(sizeof(t_node *) * file_map->height);
 	if (!file_map->matrix)
-		ft_free_and_exit(file_map, "Parse error: malloc failed\n", 1);
+		ft_free_and_exit(file_map, "Parse error: malloc failed\n", 1, 1);
 	i = 0;
 	while (i < file_map->height)
 	{
 		file_map->matrix[i] = malloc(sizeof(t_node) * file_map->width);
 		if (!file_map->matrix[i])
-			ft_free_and_exit(file_map, "Parse error: malloc failed\n", 1);
+			ft_free_and_exit(file_map, "Parse error: malloc failed\n", 1, 1);
 		i++;
 	}
 }

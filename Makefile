@@ -2,14 +2,19 @@ NAME= fdf
 LIBFT= libft/libft.a
 
 SRC_FILES = error_handler.c fdf.c parse_and_store_utils.c \
-		parse_and_store.c calculations.c draw.c
+		parse_and_store.c calculations.c draw.c hooks.c
+SRC_BONUS_FILES = calculations_bonus.c
 OBJ_DIR= obj
+OBJ_BONUS_DIR = obj_bonus
 SRC= $(addprefix src/,$(SRC_FILES))
+SRC_BONUS= $(addprefix bonus/,$(SRC_BONUS_FILES))
 OBJ= $(addprefix $(OBJ_DIR)/,$(SRC_FILES:.c=.o))
+OBJ_BONUS= $(addprefix $(OBJ_BONUS_DIR)/,$(SRC_BONUS_FILES:.c=.o))
 
 CFLAGS = -Wall -Wextra -Werror
 CC = gcc
 
+#make ; valgrind --leak-check=full --show-leak-kinds=all ./fdf test_maps/42.fdf
 define LOADING_BAR_COMP
 	@printf "\033[0;32mCompiling fdf: ["
 	@for i in `seq 1 20`; do \

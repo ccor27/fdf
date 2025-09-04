@@ -33,7 +33,6 @@
 // 	}
 // }
 
-
 static void	ft_initialize(t_fdf *file_map)
 {
 	file_map->width = -1;
@@ -42,6 +41,7 @@ static void	ft_initialize(t_fdf *file_map)
 	file_map->tokens = NULL;
 }
 
+// fdf->data_cam->angle = 0.6578;
 void	ft_init_cam(t_fdf *fdf)
 {
 	double	sx;
@@ -52,7 +52,7 @@ void	ft_init_cam(t_fdf *fdf)
 		return ;
 	fdf->data_cam = malloc(sizeof(t_cam));
 	if (!fdf->data_cam)
-		ft_free_and_exit(fdf, "malloc cam failed\n", 1);
+		ft_free_and_exit(fdf, "malloc cam failed\n", 1, 1);
 	fdf->data_cam->angle = 0.523599;
 	sx = (double)fdf->data_img->w / (fdf->width * 2.0);
 	sy = (double)fdf->data_img->h / (fdf->height * 2.0);
@@ -100,12 +100,13 @@ int	main(int argc, char **argv)
 	ft_initialize(&fdf);
 	ft_validate_and_store(argv[1], &fdf);
 	if (ft_init_mlx(&fdf) != 0)
-		ft_free_and_exit(&fdf,"Error during the initialization of mlx",1);
+		ft_free_and_exit(&fdf, "Error during the initialization of mlx", 1, 1);
 	ft_init_cam(&fdf);
 	ft_calculate_all_isos(&fdf);
 	ft_draw_map(&fdf);
-	mlx_hook(fdf.win_ptr,17,0,ft_close,&fdf);
+	mlx_hook(fdf.win_ptr, 17, 0, ft_close, &fdf);
+	mlx_hook(fdf.win_ptr, 2, 1L << 0, ft_handle_keypress, &fdf);
 	mlx_loop(fdf.mlx_ptr);
-	ft_free_and_exit(&fdf, NULL, 0);
-	return(0);
+	ft_free_and_exit(&fdf, NULL, 0, 1);
+	return (0);
 }
