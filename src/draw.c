@@ -17,7 +17,7 @@ void	ft_draw_map(t_fdf *fdf)
 	size_t	bytes;
 
 	if (!fdf || !fdf->data_img)
-		ft_free_and_exit(fdf, "Error drawing map\n", 1);
+		ft_free_and_exit(fdf, "Error drawing map\n", 1,1);
 	bytes = (size_t)fdf->data_img->line_len * (size_t)fdf->data_img->h;
 	ft_bzero(fdf->data_img->addr, bytes);
 	ft_draw_map_aux(fdf);
