@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_and_store_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crosorio < crosorio@student.42madrid.com>  #+#  +:+       +#+        */
+/*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-25 16:17:48 by crosorio          #+#    #+#             */
-/*   Updated: 2025-08-25 16:17:48 by crosorio         ###   ########.fr       */
+/*   Created: 2025/08/25 16:17:48 by crosorio          #+#    #+#             */
+/*   Updated: 2025/09/06 14:05:41 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,7 @@ int	parse_token(t_node *node, char *token, int x, int y)
 		node->z = ft_atoi(token);
 		node->color = 0xFFFFFF;
 	}
+	if (node->color == 0x000000)
+        node->color = 0xFFFFFF;
 	return (1);
 }

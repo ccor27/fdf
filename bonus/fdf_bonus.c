@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.c                                              :+:      :+:    :+:   */
+/*   fdf_bonus.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:02:09 by crosorio          #+#    #+#             */
-/*   Updated: 2025/08/26 14:34:46 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/06 13:32:44 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,20 +72,20 @@ int	ft_init_mlx(t_fdf *fdf)
 	fdf->mlx_ptr = mlx_init();
 	if (fdf->mlx_ptr == NULL)
 		return (1);
-	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 1366, 768, "FdF");
+	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 2560, 1440, "FdF");
 	if (fdf->win_ptr == NULL)
 		return (1);
 	fdf->data_img = malloc(sizeof(t_img));
 	if (fdf->data_img == NULL)
 		return (1);
-	fdf->data_img->img = mlx_new_image(fdf->mlx_ptr, 1366, 768);
+	fdf->data_img->img = mlx_new_image(fdf->mlx_ptr, 2560, 1440);
 	if (fdf->data_img->img == NULL)
 		return (1);
 	fdf->data_img->addr = mlx_get_data_addr(fdf->data_img->img,
 			&fdf->data_img->bpp, &fdf->data_img->line_len,
 			&fdf->data_img->endian);
-	fdf->data_img->w = 1366;
-	fdf->data_img->h = 768;
+	fdf->data_img->w = 2560;
+	fdf->data_img->h = 1440;
 	return (0);
 }
 
@@ -104,7 +104,7 @@ int	main(int argc, char **argv)
 	ft_init_cam(&fdf);
 	ft_calculate_all_isos(&fdf);
 	ft_draw_map(&fdf);
-//	mlx_hook(fdf.win_ptr, 17, 0, ft_close, &fdf);
+	mlx_hook(fdf.win_ptr, 17, 0, ft_close, &fdf);
 	mlx_hook(fdf.win_ptr, 2, 1L << 0, ft_handle_keypress, &fdf);
 	mlx_hook(fdf.win_ptr, 4, 1L << 2, ft_handle_zoom, &fdf);
 	mlx_loop(fdf.mlx_ptr);

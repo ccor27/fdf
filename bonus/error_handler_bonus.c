@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_hanlder.c                                    :+:      :+:    :+:   */
+/*   error_handler_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crosorio < crosorio@student.42madrid.com>  #+#  +:+       +#+        */
+/*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-25 13:32:12 by crosorio          #+#    #+#             */
-/*   Updated: 2025-08-25 13:32:12 by crosorio         ###   ########.fr       */
+/*   Created: 2025/08/25 13:32:12 by crosorio          #+#    #+#             */
+/*   Updated: 2025/09/06 12:44:40 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ void	ft_free_and_exit(t_fdf *fdf, char *msg, int exit_code, int from_my_code)
 	if (fdf->data_img->img)
 		mlx_destroy_image(fdf->mlx_ptr, fdf->data_img->img);
 	if (from_my_code && fdf->win_ptr)
-	{
-		ft_printf("entro en from_my_code\n");
 		mlx_destroy_window(fdf->mlx_ptr, fdf->win_ptr);
-	}
 	ft_error(msg, exit_code);
 }
 

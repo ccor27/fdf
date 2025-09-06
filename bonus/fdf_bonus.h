@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crosorio < crosorio@student.42madrid.com>  #+#  +:+       +#+        */
+/*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-09-04 12:51:18 by crosorio          #+#    #+#             */
-/*   Updated: 2025-09-04 12:51:18 by crosorio         ###   ########.fr       */
+/*   Created: 2025/09/04 12:51:18 by crosorio          #+#    #+#             */
+/*   Updated: 2025/09/06 14:40:06 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FDF_BONUS_H
 
 # include "libft/libft.h"
-# include "minilibx/mlx.h"
+# include "minilibx-linux/mlx.h"
 # include <X11/Xlib.h>
 # include <fcntl.h>
 # include <math.h>
@@ -37,6 +37,7 @@ typedef struct s_cam
 	double	angle;
 	double	x_off;
 	double	y_off;
+	int	color_mode;
 }			t_cam;
 
 typedef struct s_img
@@ -98,6 +99,9 @@ void		img_put_pixel(t_img *img, int x, int y, int color);
 // draw.c
 void		ft_draw_map(t_fdf *file_map);
 void		ft_draw_map_aux(t_fdf *f_map);
+double	ft_get_percent(int start, int end, int current);
+int	ft_interpolate(int start, int end, double t);
+int	ft_get_color(t_node *a, t_node *b, int x, int y);
 // hooks.c
 int			ft_handle_keypress(int keycode, t_fdf *fdf);
 //int	ft_handle_zoom(int keycode, t_fdf *fdf);

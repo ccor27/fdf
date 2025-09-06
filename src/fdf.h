@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crosorio < crosorio@student.42madrid.com>  #+#  +:+       +#+        */
+/*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-25 12:57:09 by crosorio          #+#    #+#             */
-/*   Updated: 2025-08-25 12:57:09 by crosorio         ###   ########.fr       */
+/*   Created: 2025/08/25 12:57:09 by crosorio          #+#    #+#             */
+/*   Updated: 2025/09/06 12:40:43 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FDF_H
 
 # include "libft/libft.h"
-# include "minilibx/mlx.h"
+# include "minilibx-linux/mlx.h"
 # include <X11/Xlib.h>
 # include <fcntl.h> //open
 # include <math.h>  // cos and sin

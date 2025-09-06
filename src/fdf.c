@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:02:09 by crosorio          #+#    #+#             */
-/*   Updated: 2025/08/26 14:34:46 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/06 13:21:30 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,20 +72,22 @@ int	ft_init_mlx(t_fdf *fdf)
 	fdf->mlx_ptr = mlx_init();
 	if (fdf->mlx_ptr == NULL)
 		return (1);
-	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 1366, 768, "FdF");
+//	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 1366, 768, "FdF");
+fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 1920, 1080, "FdF");
 	if (fdf->win_ptr == NULL)
 		return (1);
 	fdf->data_img = malloc(sizeof(t_img));
 	if (fdf->data_img == NULL)
 		return (1);
-	fdf->data_img->img = mlx_new_image(fdf->mlx_ptr, 1366, 768);
+//	fdf->data_img->img = mlx_new_image(fdf->mlx_ptr, 1366, 768);
+fdf->data_img->img = mlx_new_image(fdf->mlx_ptr, 1920, 1080);
 	if (fdf->data_img->img == NULL)
 		return (1);
 	fdf->data_img->addr = mlx_get_data_addr(fdf->data_img->img,
 			&fdf->data_img->bpp, &fdf->data_img->line_len,
 			&fdf->data_img->endian);
-	fdf->data_img->w = 1366;
-	fdf->data_img->h = 768;
+	fdf->data_img->w = 1920;
+	fdf->data_img->h = 1080;
 	return (0);
 }
 

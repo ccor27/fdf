@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert.c                                          :+:      :+:    :+:   */
+/*   calculations.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crosorio < crosorio@student.42madrid.com>  #+#  +:+       +#+        */
+/*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-28 14:16:09 by crosorio          #+#    #+#             */
-/*   Updated: 2025-08-28 14:16:09 by crosorio         ###   ########.fr       */
+/*   Created: 2025/08/28 14:16:09 by crosorio          #+#    #+#             */
+/*   Updated: 2025/09/06 14:04:07 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	ft_draw_bresenham(t_img *img, t_node *a, t_node *b)
 	y_current = a->yiso;
 	while (1)
 	{
-		img_put_pixel(img, x_current, y_current, 0xFF0000);
+		img_put_pixel(img, x_current, y_current, a->color);
 		if (x_current == b->xiso && y_current == b->yiso)
 			break ;
 		e2_val = 2 * b_data.err;
