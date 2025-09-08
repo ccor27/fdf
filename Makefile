@@ -11,7 +11,7 @@ SRC_FILES = error_handler.c fdf.c parse_and_store_utils.c \
 
 SRC_BONUS_FILES = calculations_bonus.c draw_bonus.c error_handler_bonus.c \
                     hooks_bonus.c parse_and_store_bonus.c parse_and_store_utils_bonus.c \
-                    fdf_bonus.c
+                    fdf_bonus.c draw_utils_bonus.c
 
 OBJ_DIR= obj
 OBJ_BONUS_DIR = obj_bonus
@@ -193,7 +193,7 @@ re: fclean all
 # fclean: clean
 # 	@rm -f $(NAME)
 # 	@$(MAKE) -C $(LIBFT_DIR) fclean --silent
-# 	@rm -f $(MINILIBX_DIR)/libmlx.a 
+# 	@rm -f $(MINILIBX_DIR)/libmlx.a
 
 # re: fclean all
 

@@ -45,12 +45,12 @@ void	ft_draw_map_aux(t_fdf *fdf)
 			if (j + 1 < fdf->width)
 			{
 				ft_draw_bresenham(fdf->data_img, &fdf->matrix[i][j],
-					&fdf->matrix[i][j + 1]);
+					&fdf->matrix[i][j + 1],fdf->data_cam->color_mode);
 			}
 			if (i + 1 < fdf->height)
 			{
 				ft_draw_bresenham(fdf->data_img, &fdf->matrix[i][j],
-					&fdf->matrix[i + 1][j]);
+					&fdf->matrix[i + 1][j],fdf->data_cam->color_mode);
 			}
 			j++;
 		}
@@ -70,28 +70,29 @@ int	ft_interpolate(int start, int end, double t)
 	return (int)(start + (end - start) * t);
 }
 
-int	ft_get_color(t_node *a, t_node *b, int x, int y)
+int	ft_get_color(t_color conf)
 {
 	double	percent;
 
 	int r, g, b_;
-	if (a->color == 0x000000 && b->color == 0x000000)
+	if (conf.a->color == 0x000000 && conf.b->color == 0x000000)
 		return (0xFFFFFF);
-	if (abs(b->xiso - a->xiso) > abs(b->yiso - a->yiso))
-		percent = ft_get_percent(a->xiso, b->xiso, x);
+	if (abs(conf.b->xiso - conf.a->xiso) > abs(conf.b->yiso - conf.a->yiso))
+		percent = ft_get_percent(conf.a->xiso, conf.b->xiso, conf.x);
 	else
-		percent = ft_get_percent(a->yiso, b->yiso, y);
-	r = ft_interpolate(((a->color >> 16) & 0xFF), ((b->color >> 16) & 0xFF),
+		percent = ft_get_percent(conf.a->yiso, conf.b->yiso, conf.y);
+	r = ft_interpolate(((conf.a->color >> 16) & 0xFF),
+			((conf.b->color >> 16) & 0xFF), percent);
+	g = ft_interpolate(((conf.a->color >> 8) & 0xFF),
+			((conf.b->color >> 8) & 0xFF), percent);
+	b_ = ft_interpolate((conf.a->color & 0xFF), (conf.b->color & 0xFF),
 			percent);
-	g = ft_interpolate(((a->color >> 8) & 0xFF), ((b->color >> 8) & 0xFF),
-			percent);
-	b_ = ft_interpolate((a->color & 0xFF), (b->color & 0xFF), percent);
-	// if (cam->color_mode == 1)      // R
-    //     return ((r << 16));
-    // else if (cam->color_mode == 2) // G
-    //     return ((g << 8));
-    // else if (cam->color_mode == 3) // B
-    //     return (b_);
-    // else               
-	return ((r << 16) | (g << 8) | b_);
+	if (conf.color_mode == 1) // R
+		 return ((r << 16) | (g << 15) | (b_ << 15));
+	else if (conf.color_mode == 2) // G
+		return ((r << 15) | (g << 8) | (b_ << 15));
+	else if (conf.color_mode == 3) // B
+		return ((r << 15) | (g << 15) | b_);
+	else
+		return ((r << 16) | (g << 8) | b_);
 }

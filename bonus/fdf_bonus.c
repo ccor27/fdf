@@ -72,20 +72,22 @@ int	ft_init_mlx(t_fdf *fdf)
 	fdf->mlx_ptr = mlx_init();
 	if (fdf->mlx_ptr == NULL)
 		return (1);
-	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 2560, 1440, "FdF");
+	//fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 2560, 1440, "FdF");
+	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 1366, 768, "FdF");
 	if (fdf->win_ptr == NULL)
 		return (1);
 	fdf->data_img = malloc(sizeof(t_img));
 	if (fdf->data_img == NULL)
 		return (1);
-	fdf->data_img->img = mlx_new_image(fdf->mlx_ptr, 2560, 1440);
+	//fdf->data_img->img = mlx_new_image(fdf->mlx_ptr, 2560, 1440);
+	fdf->data_img->img = mlx_new_image(fdf->mlx_ptr, 1366, 768);
 	if (fdf->data_img->img == NULL)
 		return (1);
 	fdf->data_img->addr = mlx_get_data_addr(fdf->data_img->img,
 			&fdf->data_img->bpp, &fdf->data_img->line_len,
 			&fdf->data_img->endian);
-	fdf->data_img->w = 2560;
-	fdf->data_img->h = 1440;
+	fdf->data_img->w = 1366;
+	fdf->data_img->h = 768;
 	return (0);
 }
 

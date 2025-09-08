@@ -72,31 +72,31 @@ void	ft_init_bresenham(t_bresenham *b, t_node *a, t_node *b_node)
 	b->err = b->dx - b->dy;
 }
 
-void	ft_draw_bresenham(t_img *img, t_node *a, t_node *b)
+void	ft_draw_bresenham(t_img *img, t_node *a, t_node *b, int color_mode)
 {
 	t_bresenham	b_data;
-	int			e2_val;
-	int			x_c;
-	int			y_c;
+	t_color		conf;
 
 	ft_init_bresenham(&b_data, a, b);
-	x_c = a->xiso;
-	y_c = a->yiso;
+	b_data.x_c = a->xiso;
+	b_data.y_c = a->yiso;
+	conf.color_mode=color_mode;
 	while (1)
 	{
-		img_put_pixel(img, x_c, y_c, ft_get_color(a, b, x_c, y_c));
-		if (x_c == b->xiso && y_c == b->yiso)
+		ft_set_color_config_values(a,b,&conf,&b_data);
+		img_put_pixel(img, b_data.x_c, b_data.y_c, ft_get_color(conf));
+		if (b_data.x_c == b->xiso && b_data.y_c == b->yiso)
 			break ;
-		e2_val = 2 * b_data.err;
-		if (e2_val > -b_data.dy)
+		b_data.e2_val = 2 * b_data.err;
+		if (b_data.e2_val > -b_data.dy)
 		{
 			b_data.err -= b_data.dy;
-			x_c += b_data.sx;
+			b_data.x_c += b_data.sx;
 		}
-		if (e2_val < b_data.dx)
+		if (b_data.e2_val < b_data.dx)
 		{
 			b_data.err += b_data.dx;
-			y_c += b_data.sy;
+			b_data.y_c += b_data.sy;
 		}
 	}
 }

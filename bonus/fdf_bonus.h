@@ -37,7 +37,7 @@ typedef struct s_cam
 	double	angle;
 	double	x_off;
 	double	y_off;
-	int	color_mode;
+	int		color_mode;
 }			t_cam;
 
 typedef struct s_img
@@ -72,7 +72,19 @@ typedef struct s_bresenham
 	int		sy;
 	int		err;
 	int		e2;
+	int		e2_val;
+	int		x_c;
+	int		y_c;
 }			t_bresenham;
+
+typedef struct s_color
+{
+	t_node	*a;
+	t_node	*b;
+	int		x;
+	int		y;
+	int		color_mode;
+}			t_color;
 
 // error_handler_bonus.c
 void		ft_error(char *msg, int exit_code);
@@ -94,17 +106,20 @@ void		ft_validate_and_store(char *file, t_fdf *file_map);
 void		ft_calculate_isos(t_node *node, t_cam *cam);
 void		ft_calculate_all_isos(t_fdf *file_map);
 void		ft_init_bresenham(t_bresenham *b, t_node *a, t_node *b_node);
-void		ft_draw_bresenham(t_img *img, t_node *a, t_node *b);
+void		ft_draw_bresenham(t_img *img, t_node *a, t_node *b,int color_mode);
 void		img_put_pixel(t_img *img, int x, int y, int color);
 // draw.c
 void		ft_draw_map(t_fdf *file_map);
 void		ft_draw_map_aux(t_fdf *f_map);
-double	ft_get_percent(int start, int end, int current);
-int	ft_interpolate(int start, int end, double t);
-int	ft_get_color(t_node *a, t_node *b, int x, int y);
+double		ft_get_percent(int start, int end, int current);
+int			ft_interpolate(int start, int end, double t);
+int			ft_get_color(t_color conf);
 // hooks.c
 int			ft_handle_keypress(int keycode, t_fdf *fdf);
-//int	ft_handle_zoom(int keycode, t_fdf *fdf);
-int	ft_handle_zoom(int keycode, int x, int y, void *param);
+// int	ft_handle_zoom(int keycode, t_fdf *fdf);
+int			ft_handle_zoom(int keycode, int x, int y, void *param);
+//draw_utils_bonus.c
+void	ft_set_color_config_values(t_node *a, t_node *b, t_color *conf,
+		t_bresenham *b_data);
 
 #endif
