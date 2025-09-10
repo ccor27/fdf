@@ -14,8 +14,10 @@
 
 void	ft_calculate_all_isos(t_fdf *fdf)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	double	tmp_x;
+	double	tmp_y;
 
 	i = 0;
 	while (i < fdf->height)
@@ -23,80 +25,68 @@ void	ft_calculate_all_isos(t_fdf *fdf)
 		j = 0;
 		while (j < fdf->width)
 		{
-			ft_calculate_isos(&fdf->matrix[i][j], fdf->data_cam);
+			tmp_x = (fdf->matrix[i][j].x - fdf->matrix[i][j].y)
+				* cos(fdf->data_cam->angle) * fdf->data_cam->zoom;
+			tmp_y = (fdf->matrix[i][j].x + fdf->matrix[i][j].y)
+				* sin(fdf->data_cam->angle) * fdf->data_cam->zoom
+				- (fdf->matrix[i][j].z * fdf->data_cam->z_scale);
+			fdf->matrix[i][j].xiso = (int)tmp_x + fdf->data_cam->x_off;
+			fdf->matrix[i][j].yiso = (int)tmp_y + fdf->data_cam->y_off;
 			j++;
 		}
 		i++;
 	}
 }
 
-void	ft_calculate_isos(t_node *node, t_cam *cam)
-{
-	double	tmp_x;
-	double	tmp_y;
+// void	ft_calculate_isos(t_node *node, t_cam *cam)
+// {
+// 	double	tmp_x;
+// 	double	tmp_y;
 
-	tmp_x = (node->x - node->y) * cos(cam->angle) * cam->zoom;
-	tmp_y = (node->x + node->y) * sin(cam->angle) * cam->zoom - (node->z
-			* cam->z_scale);
-	node->xiso = (int)tmp_x + cam->x_off;
-	node->yiso = (int)tmp_y + cam->y_off;
+// 	tmp_x = (node->x - node->y) * cos(cam->angle) * cam->zoom;
+// 	tmp_y = (node->x + node->y) * sin(cam->angle) * cam->zoom - (node->z
+// 			* cam->z_scale);
+// 	node->xiso = (int)tmp_x + cam->x_off;
+// 	node->yiso = (int)tmp_y + cam->y_off;
+// }
+
+double	ft_get_percent(int start, int end, int current)
+{
+	if (start == end)
+		return (1.0);
+	return ((double)(current - start) / (double)(end - start));
 }
 
-void	img_put_pixel(t_img *img, int x, int y, int color)
+int	ft_interpolate(int start, int end, double t)
 {
-	char	*dst;
-
-	if (!img || !img->addr)
-		return ;
-	if (x < 0 || x >= img->w || y < 0 || y >= img->h)
-		return ;
-	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
-	*(unsigned int *)dst = (unsigned int)color;
+	return (int)(start + (end - start) * t);
 }
 
-void	ft_init_bresenham(t_bresenham *b, t_node *a, t_node *b_node)
+int	ft_get_color(t_color conf)
 {
-	int	dx_val;
-	int	dy_val;
+	double	percent;
 
-	dx_val = b_node->xiso - a->xiso;
-	dy_val = b_node->yiso - a->yiso;
-	b->dx = abs(dx_val);
-	b->dy = abs(dy_val);
-	b->sx = 1;
-	if (dx_val < 0)
-		b->sx = -1;
-	b->sy = 1;
-	if (dy_val < 0)
-		b->sy = -1;
-	b->err = b->dx - b->dy;
-}
-
-void	ft_draw_bresenham(t_img *img, t_node *a, t_node *b, int color_mode)
-{
-	t_bresenham	b_data;
-	t_color		conf;
-
-	ft_init_bresenham(&b_data, a, b);
-	b_data.x_c = a->xiso;
-	b_data.y_c = a->yiso;
-	conf.color_mode=color_mode;
-	while (1)
-	{
-		ft_set_color_config_values(a,b,&conf,&b_data);
-		img_put_pixel(img, b_data.x_c, b_data.y_c, ft_get_color(conf));
-		if (b_data.x_c == b->xiso && b_data.y_c == b->yiso)
-			break ;
-		b_data.e2_val = 2 * b_data.err;
-		if (b_data.e2_val > -b_data.dy)
-		{
-			b_data.err -= b_data.dy;
-			b_data.x_c += b_data.sx;
-		}
-		if (b_data.e2_val < b_data.dx)
-		{
-			b_data.err += b_data.dx;
-			b_data.y_c += b_data.sy;
-		}
-	}
+	if (conf.a->color == 0x000000 && conf.b->color == 0x000000)
+		return (0xFFFFFF);
+	if (abs(conf.b->xiso - conf.a->xiso) > abs(conf.b->yiso - conf.a->yiso))
+		percent = ft_get_percent(conf.a->xiso, conf.b->xiso, conf.x);
+	else
+		percent = ft_get_percent(conf.a->yiso, conf.b->yiso, conf.y);
+	conf.r = ft_interpolate(((conf.a->color >> 16) & 0xFF),
+			((conf.b->color >> 16) & 0xFF), percent);
+	conf.g = ft_interpolate(((conf.a->color >> 8) & 0xFF),
+			((conf.b->color >> 8) & 0xFF), percent);
+	conf.b_ = ft_interpolate((conf.a->color & 0xFF), (conf.b->color & 0xFF),
+			percent);
+	// aplicar filtro según color_mode
+	if (conf.color_mode == 1) // R
+		conf.r_f = 1.5;
+	else if (conf.color_mode == 2) // G
+		conf.g_f = 1.5;
+	else if (conf.color_mode == 3) // B
+		conf.b_ = 1.5;
+	conf.r = fmin(255, (int)(conf.r * conf.r_f));
+	conf.g = fmin(255, (int)(conf.g * conf.g_f));
+	conf.b_ = fmin(255, (int)(conf.b_ * conf.b_f));
+	return ((conf.r << 16) | (conf.g << 8) | conf.b_);
 }

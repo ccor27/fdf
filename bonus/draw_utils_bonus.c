@@ -19,4 +19,70 @@ void	ft_set_color_config_values(t_node *a, t_node *b, t_color *conf,
 	conf->b = b;
 	conf->x = b_data->x_c;
 	conf->y = b_data->y_c;
+	conf->r_f = 1.0;
+	conf->g_f = 1.0;
+	conf->b_f = 1.0;
+	conf->r=0;
+	conf->g=0;
+	conf->b_=0;
+}
+
+void	ft_find_z_min_max(t_fdf *fdf)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < fdf->height)
+	{
+		j = 0;
+		while (j < fdf->width)
+		{
+			if (fdf->matrix[i][j].z < fdf->z_min)
+				fdf->z_min = fdf->matrix[i][j].z;
+			if (fdf->matrix[i][j].z > fdf->z_max)
+				fdf->z_max = fdf->matrix[i][j].z;
+			j++;
+		}
+		i++;
+	}
+}
+
+int	ft_get_color_from_z(int z, t_fdf *fdf)
+{
+	double	percent;
+
+	// evitar división por cero
+	if (fdf->z_max == fdf->z_min)
+		return (0xFFFFFF);
+	percent = (double)(z - fdf->z_min) / (double)(fdf->z_max - fdf->z_min);
+	// asignar colores por rangos
+	if (percent < 0.3)
+		return (0x0000FF); // azul (profundo)
+	else if (percent < 0.6)
+		return (0x00FF00); // verde (medio)
+	else if (percent < 0.9)
+		return (0x964B00); // marrón (alto)
+	else
+		return (0xFFFFFF); // nieve/picos
+}
+
+void	ft_assign_color_by_z(t_fdf *fdf)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < fdf->height)
+	{
+		j = 0;
+		while (j < fdf->width)
+		{
+			if (fdf->matrix[i][j].color == -1)
+				fdf->matrix[i][j].color = ft_get_color_from_z(fdf->matrix[i][j].z,
+						fdf);
+			j++;
+		}
+		i++;
+	}
 }

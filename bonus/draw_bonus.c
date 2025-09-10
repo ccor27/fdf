@@ -24,11 +24,12 @@ void	ft_draw_map(t_fdf *fdf)
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->data_img->img, 0,
 		0);
 	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 50, 0xFFFFFF,
-		"FdF Controls:");
+		"FDF CONTROLS");
 	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 80, 0xFFFFFF,
 		"Move: W A S D");
 	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 110, 0xFFFFFF, "Zoom: Scroll + -");
-	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 170, 0xFFFFFF, "Exit: ESC");
+	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 140, 0xFFFFFF, "Exit: ESC");
+	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 170, 0xFFFFFF, "Color Controls: R G B");
 }
 
 void	ft_draw_map_aux(t_fdf *fdf)
@@ -58,41 +59,63 @@ void	ft_draw_map_aux(t_fdf *fdf)
 	}
 }
 
-double	ft_get_percent(int start, int end, int current)
+
+void	img_put_pixel(t_img *img, int x, int y, int color)
 {
-	if (start == end)
-		return (1.0);
-	return ((double)(current - start) / (double)(end - start));
+	char	*dst;
+
+	if (!img || !img->addr)
+		return ;
+	if (x < 0 || x >= img->w || y < 0 || y >= img->h)
+		return ;
+	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
+	*(unsigned int *)dst = (unsigned int)color;
 }
 
-int	ft_interpolate(int start, int end, double t)
+void	ft_init_bresenham(t_bresenham *b, t_node *a, t_node *b_node)
 {
-	return (int)(start + (end - start) * t);
+	int	dx_val;
+	int	dy_val;
+
+	dx_val = b_node->xiso - a->xiso;
+	dy_val = b_node->yiso - a->yiso;
+	b->dx = abs(dx_val);
+	b->dy = abs(dy_val);
+	b->sx = 1;
+	if (dx_val < 0)
+		b->sx = -1;
+	b->sy = 1;
+	if (dy_val < 0)
+		b->sy = -1;
+	b->err = b->dx - b->dy;
 }
 
-int	ft_get_color(t_color conf)
+void	ft_draw_bresenham(t_img *img, t_node *a, t_node *b, int color_mode)
 {
-	double	percent;
+	t_bresenham	b_data;
+	t_color		conf;
 
-	int r, g, b_;
-	if (conf.a->color == 0x000000 && conf.b->color == 0x000000)
-		return (0xFFFFFF);
-	if (abs(conf.b->xiso - conf.a->xiso) > abs(conf.b->yiso - conf.a->yiso))
-		percent = ft_get_percent(conf.a->xiso, conf.b->xiso, conf.x);
-	else
-		percent = ft_get_percent(conf.a->yiso, conf.b->yiso, conf.y);
-	r = ft_interpolate(((conf.a->color >> 16) & 0xFF),
-			((conf.b->color >> 16) & 0xFF), percent);
-	g = ft_interpolate(((conf.a->color >> 8) & 0xFF),
-			((conf.b->color >> 8) & 0xFF), percent);
-	b_ = ft_interpolate((conf.a->color & 0xFF), (conf.b->color & 0xFF),
-			percent);
-	if (conf.color_mode == 1) // R
-		 return ((r << 16) | (g << 15) | (b_ << 15));
-	else if (conf.color_mode == 2) // G
-		return ((r << 15) | (g << 8) | (b_ << 15));
-	else if (conf.color_mode == 3) // B
-		return ((r << 15) | (g << 15) | b_);
-	else
-		return ((r << 16) | (g << 8) | b_);
+	ft_init_bresenham(&b_data, a, b);
+	b_data.x_c = a->xiso;
+	b_data.y_c = a->yiso;
+	conf.color_mode=color_mode;
+	while (1)
+	{
+		ft_set_color_config_values(a,b,&conf,&b_data);
+		img_put_pixel(img, b_data.x_c, b_data.y_c, ft_get_color(conf));
+		if (b_data.x_c == b->xiso && b_data.y_c == b->yiso)
+			break ;
+		b_data.e2_val = 2 * b_data.err;
+		if (b_data.e2_val > -b_data.dy)
+		{
+			b_data.err -= b_data.dy;
+			b_data.x_c += b_data.sx;
+		}
+		if (b_data.e2_val < b_data.dx)
+		{
+			b_data.err += b_data.dx;
+			b_data.y_c += b_data.sy;
+		}
+	}
 }
+

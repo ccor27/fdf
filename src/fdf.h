@@ -85,7 +85,7 @@ int			ft_close(t_fdf *fdf);
 int			main(int argc, char **argv);
 // parse_and_store_utils.c
 void		ft_malloc_matrix_memory(t_fdf *file_map);
-int			parse_token(t_node *node, char *token, int x, int y);
+int			parse_token(t_node *node, char *token);
 int			is_valid_hex(const char *str);
 int			ft_is_valid_integer(const char *str);
 // parse_and_store.c

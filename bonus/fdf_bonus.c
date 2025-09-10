@@ -35,10 +35,22 @@
 
 static void	ft_initialize(t_fdf *file_map)
 {
+	// file_map->width = -1;
+	// file_map->height = 0;
+	// file_map->matrix = NULL;
+	// file_map->tokens = NULL;
+	// file_map->z_max = -2147483648;
+	// file_map->z_min = 2147483647;
 	file_map->width = -1;
 	file_map->height = 0;
 	file_map->matrix = NULL;
 	file_map->tokens = NULL;
+	file_map->z_max = -2147483648;
+	file_map->z_min = 2147483647;
+	file_map->data_cam = NULL;
+	file_map->data_img = NULL;
+	file_map->mlx_ptr = NULL;
+	file_map->win_ptr = NULL;
 }
 
 // fdf->data_cam->angle = 0.6578;
@@ -72,14 +84,14 @@ int	ft_init_mlx(t_fdf *fdf)
 	fdf->mlx_ptr = mlx_init();
 	if (fdf->mlx_ptr == NULL)
 		return (1);
-	//fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 2560, 1440, "FdF");
+	// fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 2560, 1440, "FdF");
 	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 1366, 768, "FdF");
 	if (fdf->win_ptr == NULL)
 		return (1);
 	fdf->data_img = malloc(sizeof(t_img));
 	if (fdf->data_img == NULL)
 		return (1);
-	//fdf->data_img->img = mlx_new_image(fdf->mlx_ptr, 2560, 1440);
+	// fdf->data_img->img = mlx_new_image(fdf->mlx_ptr, 2560, 1440);
 	fdf->data_img->img = mlx_new_image(fdf->mlx_ptr, 1366, 768);
 	if (fdf->data_img->img == NULL)
 		return (1);
@@ -94,15 +106,17 @@ int	ft_init_mlx(t_fdf *fdf)
 int	main(int argc, char **argv)
 {
 	t_fdf	fdf;
+	char    *file_extension;
 
 	if (argc != 2)
-		ft_error("No enough arguments or too much!", 1);
-	if (ft_strncmp(ft_strrchr(argv[1], '.'), ".fdf", 4) != 0)
-		ft_error("No valid extension, you must use .fdf extension", 1);
+		ft_error("No enough arguments or too much!\n", 1);
+	file_extension =ft_strrchr(argv[1], '.');
+	if (file_extension == NULL || ft_strncmp(file_extension, ".fdf", 4) != 0)
+		ft_error("No valid extension, you must use .fdf extension\n", 1);
 	ft_initialize(&fdf);
 	ft_validate_and_store(argv[1], &fdf);
 	if (ft_init_mlx(&fdf) != 0)
-		ft_free_and_exit(&fdf, "Error during the initialization of mlx", 1, 1);
+		ft_free_and_exit(&fdf, "Error during the initialization of mlx\n", 1, 1);
 	ft_init_cam(&fdf);
 	ft_calculate_all_isos(&fdf);
 	ft_draw_map(&fdf);

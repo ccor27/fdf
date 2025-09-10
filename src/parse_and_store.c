@@ -21,7 +21,7 @@ static void	ft_store_data(t_fdf *file_map, int width, int row, char **tokens)
 	{
 		file_map->matrix[row][col].x = col;
 		file_map->matrix[row][col].y = row;
-		if (!parse_token(&file_map->matrix[row][col], tokens[col], col, row))
+		if (!parse_token(&file_map->matrix[row][col], tokens[col]))
 			ft_free_and_exit(file_map,
 				"Parse error: Invalid either color or number\n", 1, 1);
 		col++;

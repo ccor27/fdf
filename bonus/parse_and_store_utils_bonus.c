@@ -67,13 +67,11 @@ int	ft_is_valid_integer(const char *str)
 	return (1);
 }
 
-int	parse_token(t_node *node, char *token, int x, int y)
+int	parse_token(t_node *node, char *token)
 {
 	char	*comma;
 
 	comma = ft_strchr(token, ',');
-	node->x = x;
-	node->y = y;
 	if (comma)
 	{
 		*comma = '\0';
@@ -89,7 +87,8 @@ int	parse_token(t_node *node, char *token, int x, int y)
 		if (!ft_is_valid_integer(token))
 			return (0);
 		node->z = ft_atoi(token);
-		node->color = 0xFFFFFF;
+		node->color = -1;
 	}
 	return (1);
 }
+

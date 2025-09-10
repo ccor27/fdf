@@ -12,17 +12,17 @@
 
 #include "fdf_bonus.h"
 
-static void	ft_store_data(t_fdf *file_map, int width, int row, char **tokens)
+static void	ft_store_data(t_fdf *fdf, int width, int row, char **tokens)
 {
 	int	col;
 
 	col = 0;
 	while (col < width)
 	{
-		file_map->matrix[row][col].x = col;
-		file_map->matrix[row][col].y = row;
-		if (!parse_token(&file_map->matrix[row][col], tokens[col], col, row))
-			ft_free_and_exit(file_map,
+		fdf->matrix[row][col].x = col;
+		fdf->matrix[row][col].y = row;
+		if (!parse_token(&fdf->matrix[row][col], tokens[col]))
+			ft_free_and_exit(fdf,
 				"Parse error: Invalid either color or number\n", 1, 1);
 		col++;
 	}
@@ -104,15 +104,17 @@ static void	ft_read_file(t_fdf *file_map, int mode)
 	}
 }
 
-void	ft_validate_and_store(char *file, t_fdf *file_map)
+void	ft_validate_and_store(char *file, t_fdf *fdf)
 {
-	file_map->infile = open(file, O_RDONLY);
-	if (file_map->infile < 0)
-		ft_free_and_exit(file_map, "Error opening the file", 1, 1);
-	ft_read_file(file_map, 0);
-	ft_malloc_matrix_memory(file_map);
-	file_map->infile = open(file, O_RDONLY);
-	if (file_map->infile < 0)
-		ft_free_and_exit(file_map, "Error opening the file", 1, 1);
-	ft_read_file(file_map, 1);
+	fdf->infile = open(file, O_RDONLY);
+	if (fdf->infile < 0)
+		ft_free_and_exit(fdf, "Error opening the file", 1, 1);
+	ft_read_file(fdf, 0);
+	ft_malloc_matrix_memory(fdf);
+	fdf->infile = open(file, O_RDONLY);
+	if (fdf->infile < 0)
+		ft_free_and_exit(fdf, "Error opening the file", 1, 1);
+	ft_read_file(fdf, 1);
+	ft_find_z_min_max(fdf);
+	ft_assign_color_by_z(fdf);
 }
