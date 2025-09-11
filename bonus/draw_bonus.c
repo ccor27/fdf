@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:10:05 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/06 14:45:32 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/11 10:27:40 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_draw_map(t_fdf *fdf)
 		"Move: W A S D");
 	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 110, 0xFFFFFF, "Zoom: Scroll + -");
 	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 140, 0xFFFFFF, "Exit: ESC");
-	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 170, 0xFFFFFF, "Color Controls: R G B");
+	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 170, 0xFFFFFF, "Color Controls: R G B N");
 }
 
 void	ft_draw_map_aux(t_fdf *fdf)

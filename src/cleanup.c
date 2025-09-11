@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_hanlder.c                                    :+:      :+:    :+:   */
+/*   cleanup.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crosorio < crosorio@student.42madrid.com>  #+#  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -21,7 +21,7 @@ int	ft_close(t_fdf *fdf)
 void	ft_error(char *msg, int exit_code)
 {
 	if (msg)
-		ft_printf(msg);
+		ft_printf("\033[0;31m%s\033[0m", msg);
 	exit(exit_code);
 }
 
@@ -33,13 +33,13 @@ void	ft_free_and_exit(t_fdf *fdf, char *msg, int exit_code, int from_my_code)
 		close(fdf->infile);
 	if (fdf->data_cam)
 		free(fdf->data_cam);
-	if (fdf->data_img->img)
-		mlx_destroy_image(fdf->mlx_ptr, fdf->data_img->img);
-	if (from_my_code && fdf->win_ptr)
+	if (fdf->data_img)
 	{
-		ft_printf("entro en from_my_code\n");
-		mlx_destroy_window(fdf->mlx_ptr, fdf->win_ptr);
+		if (fdf->data_img->img)
+			mlx_destroy_image(fdf->mlx_ptr, fdf->data_img->img);
 	}
+	if (from_my_code && fdf->win_ptr)
+		mlx_destroy_window(fdf->mlx_ptr, fdf->win_ptr);
 	ft_error(msg, exit_code);
 }
 

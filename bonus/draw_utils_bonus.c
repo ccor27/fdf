@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_utils_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crosorio < crosorio@student.42madrid.com>  #+#  +:+       +#+        */
+/*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-09-07 14:01:25 by crosorio          #+#    #+#             */
-/*   Updated: 2025-09-07 14:01:25 by crosorio         ###   ########.fr       */
+/*   Created: 2025/09/07 14:01:25 by crosorio          #+#    #+#             */
+/*   Updated: 2025/09/11 10:23:30 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,9 @@ int	ft_get_color_from_z(int z, t_fdf *fdf)
 {
 	double	percent;
 
-	// evitar división por cero
 	if (fdf->z_max == fdf->z_min)
 		return (0xFFFFFF);
 	percent = (double)(z - fdf->z_min) / (double)(fdf->z_max - fdf->z_min);
-	// asignar colores por rangos
 	if (percent < 0.3)
 		return (0x0000FF); // azul (profundo)
 	else if (percent < 0.6)

@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:36:58 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/06 14:39:46 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/11 10:39:08 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_handle_keypress(int keycode, t_fdf *fdf)
 		fdf->data_cam->color_mode = 3;
 	else if (keycode == 110) // N (normal)
 		fdf->data_cam->color_mode = 0;
-	ft_calculate_all_isos(fdf);
+	ft_calculate_isos(fdf);
 	ft_draw_map(fdf);
 	return (0);
 }
@@ -62,7 +62,7 @@ int	ft_handle_zoom(int keycode, int x, int y, void *param)
 	// ajustar offsets para que el zoom se centre en (x,y)
 	fdf->data_cam->x_off = x - scale * (x - fdf->data_cam->x_off);
 	fdf->data_cam->y_off = y - scale * (y - fdf->data_cam->y_off);
-	ft_calculate_all_isos(fdf);
+	ft_calculate_isos(fdf);
 	ft_draw_map(fdf);
 	return (0);
 }

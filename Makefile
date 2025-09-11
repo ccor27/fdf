@@ -6,7 +6,7 @@ MINILIBX=$(MINILIBX_DIR)/libmlx.a
 
 INCLUDES= -I. -I$(LIBFT_DIR) -I$(MINILIBX_DIR)
 
-SRC_FILES = error_handler.c fdf.c parse_and_store_utils.c \
+SRC_FILES = cleanup.c fdf.c parse_and_store_utils.c \
         parse_and_store.c calculations.c draw.c hooks.c
 
 SRC_BONUS_FILES = calculations_bonus.c draw_bonus.c cleanup_bonus.c \

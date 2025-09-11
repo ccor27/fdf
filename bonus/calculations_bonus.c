@@ -6,13 +6,13 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:52:56 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/06 13:42:28 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/11 10:39:08 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf_bonus.h"
 
-void	ft_calculate_all_isos(t_fdf *fdf)
+void	ft_calculate_isos(t_fdf *fdf)
 {
 	int		i;
 	int		j;
@@ -38,18 +38,6 @@ void	ft_calculate_all_isos(t_fdf *fdf)
 	}
 }
 
-// void	ft_calculate_isos(t_node *node, t_cam *cam)
-// {
-// 	double	tmp_x;
-// 	double	tmp_y;
-
-// 	tmp_x = (node->x - node->y) * cos(cam->angle) * cam->zoom;
-// 	tmp_y = (node->x + node->y) * sin(cam->angle) * cam->zoom - (node->z
-// 			* cam->z_scale);
-// 	node->xiso = (int)tmp_x + cam->x_off;
-// 	node->yiso = (int)tmp_y + cam->y_off;
-// }
-
 double	ft_get_percent(int start, int end, int current)
 {
 	if (start == end)
@@ -59,7 +47,7 @@ double	ft_get_percent(int start, int end, int current)
 
 int	ft_interpolate(int start, int end, double t)
 {
-	return (int)(start + (end - start) * t);
+	return ((int)(start + (end - start) * t));
 }
 
 int	ft_get_color(t_color conf)
@@ -78,12 +66,11 @@ int	ft_get_color(t_color conf)
 			((conf.b->color >> 8) & 0xFF), percent);
 	conf.b_ = ft_interpolate((conf.a->color & 0xFF), (conf.b->color & 0xFF),
 			percent);
-	// aplicar filtro según color_mode
-	if (conf.color_mode == 1) // R
+	if (conf.color_mode == 1)
 		conf.r_f = 1.5;
-	else if (conf.color_mode == 2) // G
+	else if (conf.color_mode == 2)
 		conf.g_f = 1.5;
-	else if (conf.color_mode == 3) // B
+	else if (conf.color_mode == 3)
 		conf.b_ = 1.5;
 	conf.r = fmin(255, (int)(conf.r * conf.r_f));
 	conf.g = fmin(255, (int)(conf.g * conf.g_f));

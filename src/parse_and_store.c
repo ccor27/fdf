@@ -6,13 +6,13 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 16:45:02 by crosorio          #+#    #+#             */
-/*   Updated: 2025/08/26 18:45:28 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/11 12:12:36 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	ft_store_data(t_fdf *file_map, int width, int row, char **tokens)
+void	ft_store_data(t_fdf *file_map, int width, int row, char **tokens)
 {
 	int	col;
 
@@ -28,7 +28,7 @@ static void	ft_store_data(t_fdf *file_map, int width, int row, char **tokens)
 	}
 }
 
-static void	ft_process_line_aux(int row, char **tokens, t_fdf *map, int mode)
+void	ft_process_line_aux(int row, char **tokens, t_fdf *map, int mode)
 {
 	int	width;
 
@@ -47,7 +47,7 @@ static void	ft_process_line_aux(int row, char **tokens, t_fdf *map, int mode)
 		ft_store_data(map, width, row, tokens);
 }
 
-static void	process_line(char *line, t_fdf *fdf, int row, int mode)
+void	process_line(char *line, t_fdf *fdf, int row, int mode)
 {
 	char	*trimmed_line;
 
@@ -75,7 +75,7 @@ static void	process_line(char *line, t_fdf *fdf, int row, int mode)
 	free(trimmed_line);
 }
 
-static void	ft_read_file(t_fdf *file_map, int mode)
+void	ft_read_file(t_fdf *file_map, int mode)
 {
 	char	*line;
 	int		row;

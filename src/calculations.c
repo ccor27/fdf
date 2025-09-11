@@ -6,16 +6,18 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 14:16:09 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/06 14:04:07 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/11 11:48:52 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_calculate_all_isos(t_fdf *fdf)
+void	ft_calculate_isos(t_fdf *fdf)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	double	tmp_x;
+	double	tmp_y;
 
 	i = 0;
 	while (i < fdf->height)
@@ -23,23 +25,15 @@ void	ft_calculate_all_isos(t_fdf *fdf)
 		j = 0;
 		while (j < fdf->width)
 		{
-			ft_calculate_isos(&fdf->matrix[i][j], fdf->data_cam);
+			tmp_x = (fdf->matrix[i][j].x - fdf->matrix[i][j].y) * cos(fdf->data_cam->angle) *fdf->data_cam->zoom;
+			tmp_y = (fdf->matrix[i][j].x + fdf->matrix[i][j].y) * sin(fdf->data_cam->angle) * fdf->data_cam->zoom - (fdf->matrix[i][j].z
+					* fdf->data_cam->z_scale);
+			fdf->matrix[i][j].xiso = (int)tmp_x + fdf->data_cam->x_off;
+			fdf->matrix[i][j].yiso = (int)tmp_y + fdf->data_cam->y_off;
 			j++;
 		}
 		i++;
 	}
-}
-
-void	ft_calculate_isos(t_node *node, t_cam *cam)
-{
-	double	tmp_x;
-	double	tmp_y;
-
-	tmp_x = (node->x - node->y) * cos(cam->angle) * cam->zoom;
-	tmp_y = (node->x + node->y) * sin(cam->angle) * cam->zoom - (node->z
-			* cam->z_scale);
-	node->xiso = (int)tmp_x + cam->x_off;
-	node->yiso = (int)tmp_y + cam->y_off;
 }
 
 void	img_put_pixel(t_img *img, int x, int y, int color)
