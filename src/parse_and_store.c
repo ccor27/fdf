@@ -108,11 +108,11 @@ void	ft_validate_and_store(char *file, t_fdf *file_map)
 {
 	file_map->infile = open(file, O_RDONLY);
 	if (file_map->infile < 0)
-		ft_free_and_exit(file_map, "Error opening the file", 1, 1);
+		ft_free_and_exit(file_map, "Error opening the file\n", 1, 1);
 	ft_read_file(file_map, 0);
 	ft_malloc_matrix_memory(file_map);
 	file_map->infile = open(file, O_RDONLY);
 	if (file_map->infile < 0)
-		ft_free_and_exit(file_map, "Error opening the file", 1, 1);
+		ft_free_and_exit(file_map, "Error opening the file\n", 1, 1);
 	ft_read_file(file_map, 1);
 }

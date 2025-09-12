@@ -108,12 +108,12 @@ void	ft_validate_and_store(char *file, t_fdf *fdf)
 {
 	fdf->infile = open(file, O_RDONLY);
 	if (fdf->infile < 0)
-		ft_free_and_exit(fdf, "Error opening the file", 1, 1);
+		ft_free_and_exit(fdf, "Error opening the file\n", 1, 1);
 	ft_read_file(fdf, 0);
 	ft_malloc_matrix_memory(fdf);
 	fdf->infile = open(file, O_RDONLY);
 	if (fdf->infile < 0)
-		ft_free_and_exit(fdf, "Error opening the file", 1, 1);
+		ft_free_and_exit(fdf, "Error opening the file\n", 1, 1);
 	ft_read_file(fdf, 1);
 	ft_find_z_min_max(fdf);
 	ft_assign_color_by_z(fdf);
