@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_handler_bonus.c                              :+:      :+:    :+:   */
+/*   cleanup_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:32:12 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/06 12:44:40 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/13 13:02:40 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	ft_error(char *msg, int exit_code)
 
 void	ft_free_and_exit(t_fdf *fdf, char *msg, int exit_code, int from_my_code)
 {
+	if (fdf->tokens)
+		ft_free_split_tokens(&fdf->tokens);
 	if (fdf->matrix)
 		ft_free_split_matrix(fdf->matrix, fdf->height);
 	if (fdf->infile > 0)
@@ -43,10 +45,14 @@ void	ft_free_and_exit(t_fdf *fdf, char *msg, int exit_code, int from_my_code)
 	ft_error(msg, exit_code);
 }
 
-void	ft_free_split_tokens(char **tokens)
+void	ft_free_split_tokens(char ***tokens_ptr)
 {
-	int	i;
+	int		i;
+	char	**tokens;
 
+	if (!tokens_ptr || !*tokens_ptr)
+		return ;
+	tokens = *tokens_ptr;
 	i = 0;
 	while (tokens[i])
 	{
@@ -54,7 +60,7 @@ void	ft_free_split_tokens(char **tokens)
 		i++;
 	}
 	free(tokens);
-	tokens = NULL;
+	*tokens_ptr = NULL;
 }
 
 void	ft_free_split_matrix(t_node **nodes, int height)

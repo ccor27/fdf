@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 10:36:58 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/11 10:39:08 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/13 13:25:32 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@ int	ft_handle_keypress(int keycode, t_fdf *fdf)
 	move_sptep = 10;
 	if (keycode == 65307)
 		ft_free_and_exit(fdf, NULL, 0, 0);
-	else if (keycode == 119) // w
+	else if (keycode == 119)
 		fdf->data_cam->y_off += move_sptep;
-	else if (keycode == 115) // s
+	else if (keycode == 115)
 		fdf->data_cam->y_off -= move_sptep;
-	else if (keycode == 97) // a
+	else if (keycode == 97)
 		fdf->data_cam->x_off += move_sptep;
-	else if (keycode == 100) // a
+	else if (keycode == 100)
 		fdf->data_cam->x_off -= move_sptep;
-	else if (keycode == 114) // R
+	else if (keycode == 114)
 		fdf->data_cam->color_mode = 1;
-	else if (keycode == 103) // G
+	else if (keycode == 103)
 		fdf->data_cam->color_mode = 2;
-	else if (keycode == 98) // B
+	else if (keycode == 98)
 		fdf->data_cam->color_mode = 3;
-	else if (keycode == 110) // N (normal)
+	else if (keycode == 110)
 		fdf->data_cam->color_mode = 0;
 	ft_calculate_isos(fdf);
 	ft_draw_map(fdf);
@@ -48,9 +48,9 @@ int	ft_handle_zoom(int keycode, int x, int y, void *param)
 
 	fdf = (t_fdf *)param;
 	prev_zoom = fdf->data_cam->zoom;
-	if (keycode == 4) // scroll up
+	if (keycode == 4)
 		fdf->data_cam->zoom *= 1.1;
-	else if (keycode == 5) // scroll down
+	else if (keycode == 5)
 	{
 		fdf->data_cam->zoom /= 1.1;
 		if (fdf->data_cam->zoom < 0.1)
@@ -59,7 +59,6 @@ int	ft_handle_zoom(int keycode, int x, int y, void *param)
 	else
 		return (0);
 	scale = fdf->data_cam->zoom / prev_zoom;
-	// ajustar offsets para que el zoom se centre en (x,y)
 	fdf->data_cam->x_off = x - scale * (x - fdf->data_cam->x_off);
 	fdf->data_cam->y_off = y - scale * (y - fdf->data_cam->y_off);
 	ft_calculate_isos(fdf);

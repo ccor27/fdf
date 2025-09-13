@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 14:16:09 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/11 11:48:52 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/13 13:01:44 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ void	ft_calculate_isos(t_fdf *fdf)
 		j = 0;
 		while (j < fdf->width)
 		{
-			tmp_x = (fdf->matrix[i][j].x - fdf->matrix[i][j].y) * cos(fdf->data_cam->angle) *fdf->data_cam->zoom;
-			tmp_y = (fdf->matrix[i][j].x + fdf->matrix[i][j].y) * sin(fdf->data_cam->angle) * fdf->data_cam->zoom - (fdf->matrix[i][j].z
-					* fdf->data_cam->z_scale);
+			tmp_x = (fdf->matrix[i][j].x - fdf->matrix[i][j].y)
+				* cos(fdf->data_cam->angle) * fdf->data_cam->zoom;
+			tmp_y = (fdf->matrix[i][j].x + fdf->matrix[i][j].y)
+				* sin(fdf->data_cam->angle) * fdf->data_cam->zoom
+				- (fdf->matrix[i][j].z * fdf->data_cam->z_scale);
 			fdf->matrix[i][j].xiso = (int)tmp_x + fdf->data_cam->x_off;
 			fdf->matrix[i][j].yiso = (int)tmp_y + fdf->data_cam->y_off;
 			j++;

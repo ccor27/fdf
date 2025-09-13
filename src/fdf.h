@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 12:57:09 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/11 12:14:07 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/13 14:48:45 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,23 +78,22 @@ int			ft_close(t_fdf *fdf);
 void		ft_error(char *msg, int exit_code);
 void		ft_free_and_exit(t_fdf *file_map, char *msg, int exit_code,
 				int from_my_code);
-void		ft_free_split_tokens(char **tokens);
+void		ft_free_split_tokens(char ***tokens);
 void		ft_free_split_matrix(t_node **nodes, int height);
 // fdf.c
-void	ft_initialize(t_fdf *file_map);
-void	ft_init_cam(t_fdf *fdf);
-int	ft_init_mlx(t_fdf *fdf);
+void		ft_initialize(t_fdf *file_map);
+void		ft_init_cam(t_fdf *fdf);
+int			ft_init_mlx(t_fdf *fdf);
 int			main(int argc, char **argv);
 // parse_and_store_utils.c
 void		ft_malloc_matrix_memory(t_fdf *file_map);
 int			is_valid_hex(const char *str);
-int			ft_is_valid_integer(const char *str);
 int			parse_token(t_node *node, char *token);
 // parse_and_store.c
-void	ft_store_data(t_fdf *file_map, int width, int row, char **tokens);
-void	ft_process_line_aux(int row, char **tokens, t_fdf *map, int mode);
-void	process_line(char *line, t_fdf *fdf, int row, int mode);
-void	ft_read_file(t_fdf *file_map, int mode);
+int			ft_store_data(t_fdf *file_map, int width, int row, char **tokens);
+int			ft_process_line_aux(int row, char **tokens, t_fdf *map, int mode);
+void		process_line(char *line, t_fdf *fdf, int row, int mode);
+void		ft_read_file(t_fdf *file_map, int mode, int row);
 void		ft_validate_and_store(char *file, t_fdf *file_map);
 // calculations.c
 void		ft_calculate_isos(t_fdf *file_map);

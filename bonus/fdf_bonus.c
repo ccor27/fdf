@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:02:09 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/11 12:40:04 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/13 13:21:11 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	ft_initialize(t_fdf *file_map)
 	file_map->win_ptr = NULL;
 }
 
-//37.7 degrees fdf->data_cam->angle = 0.6578;
 void	ft_init_cam(t_fdf *fdf)
 {
 	double	sx;
@@ -58,14 +57,12 @@ int	ft_init_mlx(t_fdf *fdf)
 	if (fdf->mlx_ptr == NULL)
 		return (1);
 	fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 2560, 1440, "FdF");
-	//fdf->win_ptr = mlx_new_window(fdf->mlx_ptr, 1366, 768, "FdF");
 	if (fdf->win_ptr == NULL)
 		return (1);
 	fdf->data_img = malloc(sizeof(t_img));
 	if (fdf->data_img == NULL)
 		return (1);
 	fdf->data_img->img = mlx_new_image(fdf->mlx_ptr, 2560, 1440);
-	//fdf->data_img->img = mlx_new_image(fdf->mlx_ptr, 1366, 768);
 	if (fdf->data_img->img == NULL)
 		return (1);
 	fdf->data_img->addr = mlx_get_data_addr(fdf->data_img->img,
@@ -79,17 +76,18 @@ int	ft_init_mlx(t_fdf *fdf)
 int	main(int argc, char **argv)
 {
 	t_fdf	fdf;
-	char    *file_extension;
+	char	*file_extension;
 
 	if (argc != 2)
 		ft_error("No enough arguments or too much!\n", 1);
-	file_extension =ft_strrchr(argv[1], '.');
+	file_extension = ft_strrchr(argv[1], '.');
 	if (file_extension == NULL || ft_strncmp(file_extension, ".fdf", 4) != 0)
 		ft_error("No valid extension, you must use .fdf extension\n", 1);
 	ft_initialize(&fdf);
 	ft_validate_and_store(argv[1], &fdf);
 	if (ft_init_mlx(&fdf) != 0)
-		ft_free_and_exit(&fdf, "Error during the initialization of mlx\n", 1, 1);
+		ft_free_and_exit(&fdf, "Error during the initialization of mlx\n", 1,
+			1);
 	ft_init_cam(&fdf);
 	ft_calculate_isos(&fdf);
 	ft_draw_map(&fdf);

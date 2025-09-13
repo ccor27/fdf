@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 10:10:05 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/11 10:27:40 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/13 13:10:34 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ void	ft_draw_map(t_fdf *fdf)
 		"FDF CONTROLS");
 	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 80, 0xFFFFFF,
 		"Move: W A S D");
-	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 110, 0xFFFFFF, "Zoom: Scroll + -");
+	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 110, 0xFFFFFF,
+		"Zoom: Scroll + -");
 	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 140, 0xFFFFFF, "Exit: ESC");
-	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 170, 0xFFFFFF, "Color Controls: R G B N");
+	mlx_string_put(fdf->mlx_ptr, fdf->win_ptr, 50, 170, 0xFFFFFF,
+		"Color Controls: R G B N");
 }
 
 void	ft_draw_map_aux(t_fdf *fdf)
@@ -46,19 +48,18 @@ void	ft_draw_map_aux(t_fdf *fdf)
 			if (j + 1 < fdf->width)
 			{
 				ft_draw_bresenham(fdf->data_img, &fdf->matrix[i][j],
-					&fdf->matrix[i][j + 1],fdf->data_cam->color_mode);
+					&fdf->matrix[i][j + 1], fdf->data_cam->color_mode);
 			}
 			if (i + 1 < fdf->height)
 			{
 				ft_draw_bresenham(fdf->data_img, &fdf->matrix[i][j],
-					&fdf->matrix[i + 1][j],fdf->data_cam->color_mode);
+					&fdf->matrix[i + 1][j], fdf->data_cam->color_mode);
 			}
 			j++;
 		}
 		i++;
 	}
 }
-
 
 void	img_put_pixel(t_img *img, int x, int y, int color)
 {
@@ -98,10 +99,10 @@ void	ft_draw_bresenham(t_img *img, t_node *a, t_node *b, int color_mode)
 	ft_init_bresenham(&b_data, a, b);
 	b_data.x_c = a->xiso;
 	b_data.y_c = a->yiso;
-	conf.color_mode=color_mode;
+	conf.color_mode = color_mode;
 	while (1)
 	{
-		ft_set_color_config_values(a,b,&conf,&b_data);
+		ft_set_color_config_values(a, b, &conf, &b_data);
 		img_put_pixel(img, b_data.x_c, b_data.y_c, ft_get_color(conf));
 		if (b_data.x_c == b->xiso && b_data.y_c == b->yiso)
 			break ;
@@ -118,4 +119,3 @@ void	ft_draw_bresenham(t_img *img, t_node *a, t_node *b, int color_mode)
 		}
 	}
 }
-
