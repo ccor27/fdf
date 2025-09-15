@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:01:54 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/13 14:47:07 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/15 12:24:06 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_atoi(const char *nptr)
 
 static int	skip_whitespace_and_sign(const char *str, int *sign)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	*sign = 1;
@@ -62,23 +62,19 @@ int	ft_atoi_safe(const char *nptr, int *out)
 
 	i = skip_whitespace_and_sign(nptr, &sign);
 	num = 0;
-
 	if (!ft_isdigit(nptr[i]))
 		return (0);
-
 	while (ft_isdigit(nptr[i]))
 	{
 		num = num * 10 + (nptr[i] - '0');
 		if (sign == 1 && num > INT_MAX)
 			return (0);
-		if (sign == -1 && -num < INT_MIN)
+		if (sign == -1 && - num < INT_MIN)
 			return (0);
 		i++;
 	}
-
 	if (nptr[i] != '\0')
 		return (0);
-
 	*out = (int)(sign * num);
 	return (1);
 }

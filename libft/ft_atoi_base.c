@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi_base.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crosorio < crosorio@student.42madrid.com>  #+#  +:+       +#+        */
+/*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-25 15:50:28 by crosorio          #+#    #+#             */
-/*   Updated: 2025-08-25 15:50:28 by crosorio         ###   ########.fr       */
+/*   Created: 2025/08/25 15:50:28 by crosorio          #+#    #+#             */
+/*   Updated: 2025/09/15 12:26:15 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,12 @@ int	ft_atoi_base(const char *str, const char *base)
 	sign = 1;
 	if (str[i] == '-' || str[i] == '+')
 	{
-		if (str[i] == '-')
+		if (str[i++] == '-')
 			sign = -1;
-		i++;
 	}
 	res = 0;
-	while ((value = ft_base_value(str[i], base)) != -1)
+	value = ft_base_value(str[i], base);
+	while (value != -1)
 	{
 		res = res * base_len + value;
 		i++;
