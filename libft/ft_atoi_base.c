@@ -6,102 +6,70 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:50:28 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/15 12:26:15 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/19 14:48:37 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	ft_skip_spaces(int *index, const char *str)
+static int	isspace(int c)
 {
-	while (str[(*index)] == 32 || (str[(*index)] >= 9 && str[(*index)] <= 13))
-		(*index)++;
+	if (c == 9 || c == 10 || c == 11 || c == 12 || c == 13 || c == 32)
+		return (1);
+	return (0);
 }
 
-int	ft_base_value(char c, const char *base)
+static int	isvalid(int ch, int baselen)
 {
-	int	i;
+	char	*lcbase;
+	char	*ucbase;
+	int		i;
 
+	lcbase = "0123456789abcdef";
+	ucbase = "0123456789ABCDEF";
 	i = 0;
-	while (base[i] != '\0')
+	while (i < baselen)
 	{
-		if (base[i] == c)
-			return (i);
+		if (ch == lcbase[i] || ch == ucbase[i])
+			return (1);
 		i++;
 	}
-	return (-1);
+	return (0);
 }
 
-static int	ft_check_base(const char *base)
+static void	ft_skip_spaces_and_handle_sign(const char *str, int *i, int *sign)
 {
-	int	len;
-	int	j;
-
-	len = 0;
-	while (base[len])
+	while (isspace(str[*i]))
+		(*i)++;
+	if (str[*i] == '-')
 	{
-		if (base[len] == '+' || base[len] == '-' || (base[len] >= 9
-				&& base[len] <= 13) || base[len] == 32)
-			return (0);
-		j = len + 1;
-		while (base[j])
-		{
-			if (base[len] == base[j])
-				return (0);
-			j++;
-		}
-		len++;
+		*sign = -1;
+		(*i)++;
 	}
-	return (len >= 2);
+	else if (str[*i] == '+')
+		(*i)++;
 }
-// static	int	ft_aux_convertion(const char *base, const char *str, int sign,
-// 		int i)
-// {
-// 	int	res;
-// 	int	value;
-// 	int	base_len;
 
-// 	base_len = 16;
-// 	res = 0;
-// 	value = 0;
-// 	while ( value != -1)
-// 	{
-// 		value = ft_base_value(str[i], base);
-// 		res = res * base_len + value;
-// 		i++;
-// 	}
-// 	return (res * sign);
-// }
-
-int	ft_atoi_base(const char *str, const char *base)
+int	ft_atoi_base(const char *str, int str_base)
 {
-	int	sign;
-	int	i;
-	int	value;
-	int	base_len;
-	int	res;
+	int			sign;
+	int			i;
+	long long	res;
 
-	i = 0;
-	ft_skip_spaces(&i, str);
-	sign = 1;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i++] == '-')
-			sign = -1;
-	}
-	// <<<<<<< HEAD
-	// 		i++;
-	// 	};
-	// 	return (ft_aux_convertion(base,str,sign,i));
-	// =======
-	//}
 	res = 0;
-	value = ft_base_value(str[i], base);
-	while (value != -1)
+	sign = 1;
+	i = 0;
+	ft_skip_spaces_and_handle_sign(str, &i, &sign);
+	while (str[i] && isvalid(str[i], str_base))
 	{
-		res = res * base_len + value;
+		res *= str_base;
+		if (str[i] >= '0' && str[i] <= '9')
+			res += str[i] - '0';
+		else if (str[i] >= 'a' && str[i] <= 'f')
+			res += str[i] - 'a' + 10;
+		else if (str[i] >= 'A' && str[i] <= 'F')
+			res += str[i] - 'A' + 10;
 		i++;
 	}
-	return (res * sign);
-	//>>>>>>> 34f91e3470af9715808d5bc95ab3644a8fc638ce
+	return ((int)(res * sign));
 }

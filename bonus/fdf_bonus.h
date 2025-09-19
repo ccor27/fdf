@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:51:18 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/13 14:41:03 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/19 14:22:50 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void		ft_calculate_isos(t_fdf *file_map);
 double		ft_get_percent(int start, int end, int current);
 int			ft_interpolate(int start, int end, double t);
 int			ft_get_color(t_color *conf);
-//cleanup_bonus.c a
+// cleanup_bonus.c a
 int			ft_close(t_fdf *fdf);
 void		ft_error(char *msg, int exit_code);
 void		ft_free_and_exit(t_fdf *file_map, char *msg, int exit_code,

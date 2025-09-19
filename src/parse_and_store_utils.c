@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 16:17:48 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/13 14:56:25 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/19 14:49:57 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,10 @@ void	ft_malloc_matrix_memory(t_fdf *file_map)
 
 int	is_valid_hex(const char *str)
 {
-	int	i;
-
 	if (ft_strlen(str) < 3)
 		return (0);
 	if (str[0] != '0' || (str[1] != 'x' && str[1] != 'X'))
 		return (0);
-	i = 2;
-	while (str[i])
-	{
-		if (ft_base_value(str[i], "0123456789ABCDEFabcdef") == -1)
-			return (0);
-		i++;
-	}
 	return (1);
 }
 
@@ -61,7 +52,7 @@ int	parse_token(t_node *node, char *token)
 		node->z = value;
 		if (!is_valid_hex(comma + 1))
 			return (0);
-		node->color = ft_atoi_base(comma + 3, "0123456789ABCDEFabcdef");
+		node->color = ft_atoi_base(comma + 3, 16);
 	}
 	else
 	{

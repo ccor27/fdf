@@ -26,7 +26,7 @@ CFLAGS = -Wall -Wextra -Werror
 LFLAGS= -L$(MINILIBX_DIR) -lmlx -lX11 -lXext -lm
 CC = gcc
 
-#make ; valgrind --leak-check=full --show-leak-kinds=all ./fdf test_maps/42.fdf
+#make ; valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./fdf test_maps/42.fdf
 define LOADING_BAR_COMP_MINILIBX
 	@printf "\033[0;32mCompiling minilibx: ["
 	@for i in `seq 1 20`; do \

@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:55:46 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/13 14:47:07 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/19 14:48:59 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 char				*ft_utoa(unsigned int n);
 char				*ft_itoa_base(unsigned long n, int base);
-int					ft_atoi_base(const char *str, const char *base);
-int					ft_base_value(char c, const char *base);
+int					ft_atoi_base(const char *str, int str_base);
 // functions for printf
 int					ft_is_valid_specifier(char c);
 int					ft_scan(char specifier, va_list args);

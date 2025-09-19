@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 14:01:25 by crosorio          #+#    #+#             */
-/*   Updated: 2025/09/15 12:42:50 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/19 14:22:38 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,9 @@ void	ft_assign_color_by_z(t_fdf *fdf)
 		j = 0;
 		while (j < fdf->width)
 		{
-			if (fdf->matrix[i][j].color == -1)
-				fdf->matrix[i][j].color = ft_get_color_from_z(fdf->matrix[i][j].z,
-					fdf);
 			node = &fdf->matrix[i][j];
+			if (node->color == -1)
+				node->color = ft_get_color_from_z(node->z, fdf);
 			if (node->color == -1)
 				node->color = ft_get_color_from_z(node->z, fdf);
 			j++;
