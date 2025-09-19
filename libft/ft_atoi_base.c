@@ -54,18 +54,33 @@ static int	ft_check_base(const char *base)
 	}
 	return (len >= 2);
 }
+// static	int	ft_aux_convertion(const char *base, const char *str, int sign,
+// 		int i)
+// {
+// 	int	res;
+// 	int	value;
+// 	int	base_len;
+
+// 	base_len = 16;
+// 	res = 0;
+// 	value = 0;
+// 	while ( value != -1)
+// 	{
+// 		value = ft_base_value(str[i], base);
+// 		res = res * base_len + value;
+// 		i++;
+// 	}
+// 	return (res * sign);
+// }
 
 int	ft_atoi_base(const char *str, const char *base)
 {
 	int	sign;
-	int	res;
-	int	base_len;
 	int	i;
 	int	value;
+	int	base_len;
+	int	res;
 
-	base_len = ft_check_base(base);
-	if (!base_len)
-		return (0);
 	i = 0;
 	ft_skip_spaces(&i, str);
 	sign = 1;
@@ -74,6 +89,12 @@ int	ft_atoi_base(const char *str, const char *base)
 		if (str[i++] == '-')
 			sign = -1;
 	}
+	// <<<<<<< HEAD
+	// 		i++;
+	// 	};
+	// 	return (ft_aux_convertion(base,str,sign,i));
+	// =======
+	//}
 	res = 0;
 	value = ft_base_value(str[i], base);
 	while (value != -1)
@@ -82,4 +103,5 @@ int	ft_atoi_base(const char *str, const char *base)
 		i++;
 	}
 	return (res * sign);
+	//>>>>>>> 34f91e3470af9715808d5bc95ab3644a8fc638ce
 }

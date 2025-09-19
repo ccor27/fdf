@@ -49,6 +49,7 @@ void	ft_init_cam(t_fdf *fdf)
 	fdf->data_cam->z_scale = 2.5;
 	fdf->data_cam->x_off = fdf->data_img->w / 2.0;
 	fdf->data_cam->y_off = fdf->data_img->h * 0.2;
+	fdf->data_cam->color_mode=0;
 }
 
 int	ft_init_mlx(t_fdf *fdf)
@@ -89,7 +90,9 @@ int	main(int argc, char **argv)
 		ft_free_and_exit(&fdf, "Error during the initialization of mlx\n", 1,
 			1);
 	ft_init_cam(&fdf);
+	ft_printf("El valor de color_mode antes del primer dibujo es: %d\n", fdf.data_cam->color_mode);
 	ft_calculate_isos(&fdf);
+	ft_printf("Debug: Después de ft_calculate_isos, color_mode = %d\n", fdf.data_cam->color_mode);
 	ft_draw_map(&fdf);
 	mlx_hook(fdf.win_ptr, 17, 0, ft_close, &fdf);
 	mlx_hook(fdf.win_ptr, 2, 1L << 0, ft_handle_keypress, &fdf);

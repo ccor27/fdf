@@ -104,8 +104,8 @@ typedef struct s_color
 void		ft_calculate_isos(t_fdf *file_map);
 double		ft_get_percent(int start, int end, int current);
 int			ft_interpolate(int start, int end, double t);
-int			ft_get_color(t_color conf);
-// cleanup_bonus.c a
+int			ft_get_color(t_color *conf);
+//cleanup_bonus.c a
 int			ft_close(t_fdf *fdf);
 void		ft_error(char *msg, int exit_code);
 void		ft_free_and_exit(t_fdf *file_map, char *msg, int exit_code,

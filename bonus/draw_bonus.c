@@ -102,8 +102,8 @@ void	ft_draw_bresenham(t_img *img, t_node *a, t_node *b, int color_mode)
 	conf.color_mode = color_mode;
 	while (1)
 	{
-		ft_set_color_config_values(a, b, &conf, &b_data);
-		img_put_pixel(img, b_data.x_c, b_data.y_c, ft_get_color(conf));
+		ft_set_color_config_values(a,b,&conf,&b_data);
+		img_put_pixel(img, b_data.x_c, b_data.y_c, ft_get_color(&conf));
 		if (b_data.x_c == b->xiso && b_data.y_c == b->yiso)
 			break ;
 		b_data.e2_val = 2 * b_data.err;
