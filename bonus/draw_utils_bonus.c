@@ -76,9 +76,13 @@ void	ft_assign_color_by_z(t_fdf *fdf)
 		j = 0;
 		while (j < fdf->width)
 		{
+			ft_printf("Color antes: %d\n", fdf->matrix[i][j].color);
 			if (fdf->matrix[i][j].color == -1)
+			{
 				fdf->matrix[i][j].color = ft_get_color_from_z(fdf->matrix[i][j].z,
-						fdf);
+					fdf);
+					ft_printf("Color despues: %d\n", fdf->matrix[i][j].color);
+			}
 			j++;
 		}
 		i++;

@@ -80,7 +80,7 @@ int	parse_token(t_node *node, char *token)
 		node->z = ft_atoi(token);
 		if (!is_valid_hex(comma + 1))
 			return (0);
-		node->color = ft_atoi_base(comma + 2, "0123456789ABCDEFabcdef");
+		node->color = ft_atoi_base(comma + 3, "0123456789ABCDEFabcdef");
 	}
 	else
 	{
