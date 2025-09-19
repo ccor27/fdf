@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_and_store_utils.c                            :+:      :+:    :+:   */
+/*   parse_and_store_utils_bonus.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crosorio < crosorio@student.42madrid.com>  #+#  +:+       +#+        */
+/*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-25 16:17:48 by crosorio          #+#    #+#             */
-/*   Updated: 2025-08-25 16:17:48 by crosorio         ###   ########.fr       */
+/*   Created: 2025/08/25 16:17:48 by crosorio          #+#    #+#             */
+/*   Updated: 2025/09/13 14:59:59 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,46 +47,27 @@ int	is_valid_hex(const char *str)
 	return (1);
 }
 
-int	ft_is_valid_integer(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-		i++;
-	if (!str[i])
-		return (0);
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int	parse_token(t_node *node, char *token)
 {
 	char	*comma;
+	int		value;
 
 	comma = ft_strchr(token, ',');
 	if (comma)
 	{
 		*comma = '\0';
-		if (!ft_is_valid_integer(token))
+		if (ft_atoi_safe(token, &value) == 0)
 			return (0);
-		node->z = ft_atoi(token);
+		node->z = value;
 		if (!is_valid_hex(comma + 1))
 			return (0);
 		node->color = ft_atoi_base(comma + 3, "0123456789ABCDEFabcdef");
 	}
 	else
 	{
-		if (!ft_is_valid_integer(token))
+		if (ft_atoi_safe(token, &value) == 0)
 			return (0);
-		node->z = ft_atoi(token);
+		node->z = value;
 		node->color = -1;
 	}
 	if (node->color == 0x000000 || node->color == 0xFFFFFF)

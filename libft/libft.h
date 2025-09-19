@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 17:55:46 by crosorio          #+#    #+#             */
-/*   Updated: 2025/05/16 13:25:11 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/13 14:47:07 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+typedef struct s_gnl
+{
+	char			*stash;
+	char			*line;
+	char			*buffer;
+}					t_gnl;
+
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
 int					ft_isascii(int c);
@@ -46,6 +53,7 @@ char				*ft_strchr(const char *s, int c);
 char				*ft_strdup(const char *s);
 void				*ft_memmove(void *dest, const void *src, size_t n);
 int					ft_atoi(const char *nptr);
+int					ft_atoi_safe(const char *nptr, int *out);
 void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 char				*ft_substr(char const *s, unsigned int start, size_t len);
@@ -75,7 +83,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 char				*ft_utoa(unsigned int n);
 char				*ft_itoa_base(unsigned long n, int base);
 int					ft_atoi_base(const char *str, const char *base);
-int	ft_base_value(char c, const char *base);
+int					ft_base_value(char c, const char *base);
 // functions for printf
 int					ft_is_valid_specifier(char c);
 int					ft_scan(char specifier, va_list args);
@@ -90,7 +98,7 @@ int					ft_handle_pointer(void *ptr);
 int					ft_printf(const char *string, ...);
 char				**ft_split_quote(const char *s, char c, int i, int j);
 // gnl
-char				*get_next_line(int fd);
+char				*get_next_line(int fd, int flush);
 int					ft_read(int fd, char **stash, char **buffer);
 void				ft_update_stash(char **stash);
 char				*ft_get_line(char *stash);
