@@ -12,6 +12,9 @@
 
 #include "fdf_bonus.h"
 
+/**
+ * Auxiliary function to set up a color struct
+ */
 void	ft_set_color_config_values(t_node *a, t_node *b, t_color *conf,
 		t_bresenham *b_data)
 {
@@ -27,6 +30,9 @@ void	ft_set_color_config_values(t_node *a, t_node *b, t_color *conf,
 	conf->b_ = 0;
 }
 
+/**
+ * Function to find z min an max value
+ */
 void	ft_find_z_min_max(t_fdf *fdf)
 {
 	int	i;
@@ -48,6 +54,9 @@ void	ft_find_z_min_max(t_fdf *fdf)
 	}
 }
 
+/**
+ * Function to get a color value by the Z value (deep)
+ */
 int	ft_get_color_from_z(int z, t_fdf *fdf)
 {
 	double	percent;
@@ -65,6 +74,9 @@ int	ft_get_color_from_z(int z, t_fdf *fdf)
 		return (0xFFFFFF);
 }
 
+/**
+ * Function to assign node's color by z value (deep)
+ */
 void	ft_assign_color_by_z(t_fdf *fdf)
 {
 	int		i;

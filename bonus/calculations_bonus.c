@@ -12,6 +12,9 @@
 
 #include "fdf_bonus.h"
 
+/**
+ * Function to apply the isometric projection
+ */
 void	ft_calculate_isos(t_fdf *fdf)
 {
 	int		i;
@@ -38,6 +41,9 @@ void	ft_calculate_isos(t_fdf *fdf)
 	}
 }
 
+/**
+ * Function to get the percentage for colors
+ */
 double	ft_get_percent(int start, int end, int current)
 {
 	if (start == end)
@@ -45,11 +51,17 @@ double	ft_get_percent(int start, int end, int current)
 	return ((double)(current - start) / (double)(end - start));
 }
 
+/**
+ * Function to get the interpolation's value
+ */
 int	ft_interpolate(int start, int end, double t)
 {
 	return ((int)(start + (end - start) * t));
 }
 
+/**
+ * Funtion to get the color of the line to draw
+ */
 int	ft_get_color(t_color *conf)
 {
 	double	percent;

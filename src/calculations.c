@@ -12,6 +12,9 @@
 
 #include "fdf.h"
 
+/**
+ * Function to apply the isometric projection
+ */
 void	ft_calculate_isos(t_fdf *fdf)
 {
 	int		i;
@@ -38,6 +41,9 @@ void	ft_calculate_isos(t_fdf *fdf)
 	}
 }
 
+/**
+ * Function to put a pixel into minilibx image
+ */
 void	img_put_pixel(t_img *img, int x, int y, int color)
 {
 	char	*dst;
@@ -50,6 +56,9 @@ void	img_put_pixel(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = (unsigned int)color;
 }
 
+/**
+ * Auxiliary function to set up the Bresenham's algorithm
+ */
 void	ft_init_bresenham(t_bresenham *b, t_node *a, t_node *b_node)
 {
 	int	dx_val;
@@ -68,6 +77,10 @@ void	ft_init_bresenham(t_bresenham *b, t_node *a, t_node *b_node)
 	b->err = b->dx - b->dy;
 }
 
+/**
+ * Functio where we apply the bresenham algorithm to draw the line
+ * between nodes
+ */
 void	ft_draw_bresenham(t_img *img, t_node *a, t_node *b)
 {
 	t_bresenham	b_data;

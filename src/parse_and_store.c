@@ -12,6 +12,9 @@
 
 #include "fdf.h"
 
+/**
+ * Function to store data from file
+ */
 int	ft_store_data(t_fdf *file_map, int width, int row, char **tokens)
 {
 	int	col;
@@ -28,6 +31,9 @@ int	ft_store_data(t_fdf *file_map, int width, int row, char **tokens)
 	return (1);
 }
 
+/**
+ * Auxiliary function to process a line
+ */
 int	ft_process_line_aux(int row, char **tokens, t_fdf *map, int mode)
 {
 	int	width;
@@ -55,6 +61,9 @@ int	ft_process_line_aux(int row, char **tokens, t_fdf *map, int mode)
 		return (0);
 }
 
+/**
+ * Function to process a line
+ */
 void	process_line(char *line, t_fdf *fdf, int row, int mode)
 {
 	char	*trimmed_line;
@@ -81,6 +90,9 @@ void	process_line(char *line, t_fdf *fdf, int row, int mode)
 	free(trimmed_line);
 }
 
+/**
+ * Function to read a file
+ */
 void	ft_read_file(t_fdf *file_map, int mode, int row)
 {
 	char	*line;
@@ -109,6 +121,9 @@ void	ft_read_file(t_fdf *file_map, int mode, int row)
 	}
 }
 
+/**
+ * Principal function to read and store data from a file
+ */
 void	ft_validate_and_store(char *file, t_fdf *file_map)
 {
 	file_map->infile = open(file, O_RDONLY);

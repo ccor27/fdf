@@ -12,6 +12,9 @@
 
 #include "fdf.h"
 
+/**
+ * Function to handle keypress hooks
+ */
 int	ft_handle_keypress(int keycode, t_fdf *fdf)
 {
 	if (keycode == 65307)

@@ -12,6 +12,9 @@
 
 #include "fdf.h"
 
+/**
+ * Principal function to draw map
+ */
 void	ft_draw_map(t_fdf *fdf)
 {
 	size_t	bytes;
@@ -25,6 +28,10 @@ void	ft_draw_map(t_fdf *fdf)
 		0);
 }
 
+/**
+ * Auxiliary function to draw using
+ * bresenham algorithm
+ */
 void	ft_draw_map_aux(t_fdf *fdf)
 {
 	int	i;

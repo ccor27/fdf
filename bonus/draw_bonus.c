@@ -12,6 +12,9 @@
 
 #include "fdf_bonus.h"
 
+/**
+ * Principal function to draw map
+ */
 void	ft_draw_map(t_fdf *fdf)
 {
 	size_t	bytes;
@@ -34,6 +37,10 @@ void	ft_draw_map(t_fdf *fdf)
 		"Color Controls: R G B N");
 }
 
+/**
+ * Auxiliary function to draw using
+ * bresenham algorithm
+ */
 void	ft_draw_map_aux(t_fdf *fdf)
 {
 	int	i;
@@ -61,6 +68,9 @@ void	ft_draw_map_aux(t_fdf *fdf)
 	}
 }
 
+/**
+ * Function to put a pixel into minilibx image
+ */
 void	img_put_pixel(t_img *img, int x, int y, int color)
 {
 	char	*dst;
@@ -73,6 +83,9 @@ void	img_put_pixel(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = (unsigned int)color;
 }
 
+/**
+ * Auxiliary function to set up the Bresenham's algorithm
+ */
 void	ft_init_bresenham(t_bresenham *b, t_node *a, t_node *b_node)
 {
 	int	dx_val;
@@ -91,6 +104,10 @@ void	ft_init_bresenham(t_bresenham *b, t_node *a, t_node *b_node)
 	b->err = b->dx - b->dy;
 }
 
+/**
+ * Functio where we apply the bresenham algorithm to draw the line
+ * between nodes
+ */
 void	ft_draw_bresenham(t_img *img, t_node *a, t_node *b, int color_mode)
 {
 	t_bresenham	b_data;

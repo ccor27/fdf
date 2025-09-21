@@ -12,6 +12,9 @@
 
 #include "fdf_bonus.h"
 
+/**
+ * Function to handle keypress hooks
+ */
 int	ft_handle_keypress(int keycode, t_fdf *fdf)
 {
 	int	move_sptep;
@@ -40,6 +43,9 @@ int	ft_handle_keypress(int keycode, t_fdf *fdf)
 	return (0);
 }
 
+/**
+ * Function to handle zoom hook
+ */
 int	ft_handle_zoom(int keycode, int x, int y, void *param)
 {
 	t_fdf	*fdf;

@@ -12,6 +12,9 @@
 
 #include "fdf_bonus.h"
 
+/**
+ * Function to initialize principal struct
+ */
 static void	ft_initialize(t_fdf *file_map)
 {
 	file_map->width = -1;
@@ -26,6 +29,9 @@ static void	ft_initialize(t_fdf *file_map)
 	file_map->win_ptr = NULL;
 }
 
+/**
+ * Function to initialize cam struct
+ */
 void	ft_init_cam(t_fdf *fdf)
 {
 	double	sx;
@@ -52,6 +58,9 @@ void	ft_init_cam(t_fdf *fdf)
 	fdf->data_cam->color_mode = 0;
 }
 
+/**
+ * Function to initialize the minilibx window and image
+ */
 int	ft_init_mlx(t_fdf *fdf)
 {
 	fdf->mlx_ptr = mlx_init();
@@ -74,6 +83,9 @@ int	ft_init_mlx(t_fdf *fdf)
 	return (0);
 }
 
+/**
+ * Main function
+ */
 int	main(int argc, char **argv)
 {
 	t_fdf	fdf;

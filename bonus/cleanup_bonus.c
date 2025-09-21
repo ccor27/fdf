@@ -12,12 +12,18 @@
 
 #include "fdf_bonus.h"
 
+/**
+ * Funtion to close using the X of window
+ */
 int	ft_close(t_fdf *fdf)
 {
 	ft_free_and_exit(fdf, NULL, 0, 1);
 	return (0);
 }
 
+/**
+ * Function to print error message
+ */
 void	ft_error(char *msg, int exit_code)
 {
 	if (msg)
@@ -25,6 +31,9 @@ void	ft_error(char *msg, int exit_code)
 	exit(exit_code);
 }
 
+/**
+ * Functio to handle error, free memory and exit
+ */
 void	ft_free_and_exit(t_fdf *fdf, char *msg, int exit_code, int from_my_code)
 {
 	if (fdf->tokens)
@@ -45,6 +54,9 @@ void	ft_free_and_exit(t_fdf *fdf, char *msg, int exit_code, int from_my_code)
 	ft_error(msg, exit_code);
 }
 
+/**
+ * Function to free memory allocated
+ */
 void	ft_free_split_tokens(char ***tokens_ptr)
 {
 	int		i;
@@ -63,6 +75,9 @@ void	ft_free_split_tokens(char ***tokens_ptr)
 	*tokens_ptr = NULL;
 }
 
+/**
+ * Function to free memory allocated
+ */
 void	ft_free_split_matrix(t_node **nodes, int height)
 {
 	int	i;

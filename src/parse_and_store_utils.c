@@ -12,6 +12,9 @@
 
 #include "fdf.h"
 
+/**
+ * Function to allocate memory to store data
+ */
 void	ft_malloc_matrix_memory(t_fdf *file_map)
 {
 	int	i;
@@ -29,6 +32,9 @@ void	ft_malloc_matrix_memory(t_fdf *file_map)
 	}
 }
 
+/**
+ * Function to validate a hexadecimal start with 0x
+ */
 int	is_valid_hex(const char *str)
 {
 	if (ft_strlen(str) < 3)
@@ -38,6 +44,9 @@ int	is_valid_hex(const char *str)
 	return (1);
 }
 
+/**
+ * Function to validate Z value and color value
+ */
 int	parse_token(t_node *node, char *token)
 {
 	char	*comma;
