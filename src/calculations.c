@@ -1,21 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert.c                                          :+:      :+:    :+:   */
+/*   calculations.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: crosorio < crosorio@student.42madrid.com>  #+#  +:+       +#+        */
+/*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-08-28 14:16:09 by crosorio          #+#    #+#             */
-/*   Updated: 2025-08-28 14:16:09 by crosorio         ###   ########.fr       */
+/*   Created: 2025/08/28 14:16:09 by crosorio          #+#    #+#             */
+/*   Updated: 2025/09/13 13:01:44 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_calculate_all_isos(t_fdf *fdf)
+/**
+ * Function to apply the isometric projection
+ */
+void	ft_calculate_isos(t_fdf *fdf)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	double	tmp_x;
+	double	tmp_y;
 
 	i = 0;
 	while (i < fdf->height)
@@ -23,25 +28,22 @@ void	ft_calculate_all_isos(t_fdf *fdf)
 		j = 0;
 		while (j < fdf->width)
 		{
-			ft_calculate_isos(&fdf->matrix[i][j], fdf->data_cam);
+			tmp_x = (fdf->matrix[i][j].x - fdf->matrix[i][j].y)
+				* cos(fdf->data_cam->angle) * fdf->data_cam->zoom;
+			tmp_y = (fdf->matrix[i][j].x + fdf->matrix[i][j].y)
+				* sin(fdf->data_cam->angle) * fdf->data_cam->zoom
+				- (fdf->matrix[i][j].z * fdf->data_cam->z_scale);
+			fdf->matrix[i][j].xiso = (int)tmp_x + fdf->data_cam->x_off;
+			fdf->matrix[i][j].yiso = (int)tmp_y + fdf->data_cam->y_off;
 			j++;
 		}
 		i++;
 	}
 }
 
-void	ft_calculate_isos(t_node *node, t_cam *cam)
-{
-	double	tmp_x;
-	double	tmp_y;
-
-	tmp_x = (node->x - node->y) * cos(cam->angle) * cam->zoom;
-	tmp_y = (node->x + node->y) * sin(cam->angle) * cam->zoom - (node->z
-			* cam->z_scale);
-	node->xiso = (int)tmp_x + cam->x_off;
-	node->yiso = (int)tmp_y + cam->y_off;
-}
-
+/**
+ * Function to put a pixel into minilibx image
+ */
 void	img_put_pixel(t_img *img, int x, int y, int color)
 {
 	char	*dst;
@@ -54,6 +56,9 @@ void	img_put_pixel(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = (unsigned int)color;
 }
 
+/**
+ * Auxiliary function to set up the Bresenham's algorithm
+ */
 void	ft_init_bresenham(t_bresenham *b, t_node *a, t_node *b_node)
 {
 	int	dx_val;
@@ -72,6 +77,10 @@ void	ft_init_bresenham(t_bresenham *b, t_node *a, t_node *b_node)
 	b->err = b->dx - b->dy;
 }
 
+/**
+ * Functio where we apply the bresenham algorithm to draw the line
+ * between nodes
+ */
 void	ft_draw_bresenham(t_img *img, t_node *a, t_node *b)
 {
 	t_bresenham	b_data;
@@ -84,7 +93,7 @@ void	ft_draw_bresenham(t_img *img, t_node *a, t_node *b)
 	y_current = a->yiso;
 	while (1)
 	{
-		img_put_pixel(img, x_current, y_current, 0xFF0000);
+		img_put_pixel(img, x_current, y_current, a->color);
 		if (x_current == b->xiso && y_current == b->yiso)
 			break ;
 		e2_val = 2 * b_data.err;

@@ -6,7 +6,7 @@
 /*   By: crosorio <crosorio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 15:15:26 by crosorio          #+#    #+#             */
-/*   Updated: 2025/08/26 14:33:50 by crosorio         ###   ########.fr       */
+/*   Updated: 2025/09/15 12:26:43 by crosorio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /**
  * Function to free 2 pointers and return NULL
  */
+
 void	*free_two(char **ptr1, char **ptr2)
 {
 	if (ptr1 && *ptr1)
@@ -89,7 +90,7 @@ int	ft_read(int fd, char **stash, char **buffer)
 	int		bytes_read;
 	char	*tmp;
 
-	if(!*stash)
+	if (!*stash)
 		*stash = ft_strdup("");
 	while (!ft_strchr(*stash, '\n'))
 	{
@@ -109,12 +110,18 @@ int	ft_read(int fd, char **stash, char **buffer)
 }
 
 // Function that is called from the main
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, int flush)
 {
 	static char	*stash;
 	char		*line;
 	char		*buffer;
 
+	if (flush)
+	{
+		free(stash);
+		stash = NULL;
+		return (NULL);
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
@@ -129,3 +136,20 @@ char	*get_next_line(int fd)
 	free(buffer);
 	return (line);
 }
+/**
+ * static char *stash;
+
+char	**get_stash_ptr(void)
+{
+	return (&stash);
+}
+
+void	free_stash(void)
+{
+	if (stash)
+	{
+		free(stash);
+		stash = NULL;
+	}
+}
+ */
